@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
+from telegram.constants import ParseMode
 from telegram.ext import (
     Application,
     CallbackQueryHandler,
@@ -370,44 +371,70 @@ def get_wrong_questions_for_user(user_id: int) -> List[Dict[str, Any]]:
     return [QUESTION_MAP[qid] for qid in wrong_ids if qid in QUESTION_MAP]
 
 
-def question_text(q: Dict[str, Any], asked_no: int | None = None) -> str:
+def question_text(q: Dict[str, Any], asked_no: int | None = None, total_count: int | None = None) -> str:
+    header = "📘 *Terfi Sınavı Sorusu*"
+    progress = ""
+    if asked_no is not None and total_count is not None:
+        progress = f"\n┌ Soru: *{asked_no}/{total_count}*"
+
+    topic_line = f"\n├ Konu: `{q['topic']}`"
+    difficulty_emoji = "🟢" if q["difficulty"] == "kolay" else "🔴" if q["difficulty"] == "zor" else "🟡"
+    difficulty_line = f"\n└ Zorluk: {difficulty_emoji} *{q['difficulty'].capitalize()}*"
+
+    question_block = f"\n\n*{q['question']}*"
+
+    return header + progress + topic_line + difficulty_line + question_block
+
+
+def options_text(q: Dict[str, Any]) -> str:
     lines = []
-
-    if asked_no is not None:
-        lines.append(f"Soru {asked_no}")
-
-    lines.append(q["question"])
-
     for idx, option in enumerate(q["options"]):
         letter = chr(65 + idx)
-        lines.append(f"{letter}) {option}")
-
-    lines.append(f"\nKonu: {q['topic']} | Zorluk: {q['difficulty']}")
+        lines.append(f"*{letter})* {option}")
     return "\n".join(lines)
 
 
 def answer_keyboard(q: Dict[str, Any]) -> InlineKeyboardMarkup:
-    rows = []
+    option_buttons = []
+    row = []
 
     for idx, _ in enumerate(q["options"]):
         letter = chr(65 + idx)
-        rows.append([InlineKeyboardButton(letter, callback_data=f"answer|{letter}")])
+        row.append(InlineKeyboardButton(f"{letter}", callback_data=f"answer|{letter}"))
 
-    rows.append([InlineKeyboardButton("Soruyu Geç", callback_data="skip")])
-    return InlineKeyboardMarkup(rows)
+        if len(row) == 2:
+            option_buttons.append(row)
+            row = []
+
+    if row:
+        option_buttons.append(row)
+
+    option_buttons.append(
+        [
+            InlineKeyboardButton("⏭ Soruyu Geç", callback_data="skip"),
+            InlineKeyboardButton("⛔ Testi Bitir", callback_data="menu|finish_test"),
+        ]
+    )
+    option_buttons.append(
+        [
+            InlineKeyboardButton("📊 İstatistik", callback_data="menu|stats"),
+        ]
+    )
+
+    return InlineKeyboardMarkup(option_buttons)
 
 
 def main_menu_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
-            [InlineKeyboardButton("Karma Test Başlat", callback_data="menu|random")],
-            [InlineKeyboardButton("Konu Seç", callback_data="menu|topic")],
-            [InlineKeyboardButton("Zorluk Seç", callback_data="menu|difficulty")],
-            [InlineKeyboardButton("Yanlışlarım", callback_data="menu|wrong")],
-            [InlineKeyboardButton("İstatistik", callback_data="menu|stats")],
-            [InlineKeyboardButton("Günlük Deneme Aç", callback_data="menu|daily_on")],
-            [InlineKeyboardButton("Günlük Deneme Kapat", callback_data="menu|daily_off")],
-            [InlineKeyboardButton("Bugünün Denemesi", callback_data="menu|daily_now")],
+            [InlineKeyboardButton("🎲 Karma Test Başlat", callback_data="menu|random")],
+            [InlineKeyboardButton("🧩 Konu Seç", callback_data="menu|topic")],
+            [InlineKeyboardButton("⚡ Zorluk Seç", callback_data="menu|difficulty")],
+            [InlineKeyboardButton("🔁 Yanlışlarım", callback_data="menu|wrong")],
+            [InlineKeyboardButton("📊 İstatistik", callback_data="menu|stats")],
+            [InlineKeyboardButton("🌞 Günlük Deneme Aç", callback_data="menu|daily_on")],
+            [InlineKeyboardButton("🌙 Günlük Deneme Kapat", callback_data="menu|daily_off")],
+            [InlineKeyboardButton("📝 Bugünün Denemesi", callback_data="menu|daily_now")],
         ]
     )
 
@@ -419,6 +446,26 @@ def question_count_keyboard(prefix: str) -> InlineKeyboardMarkup:
             [InlineKeyboardButton("20 Soru", callback_data=f"{prefix}|20")],
             [InlineKeyboardButton("50 Soru", callback_data=f"{prefix}|50")],
         ]
+    )
+
+
+def stats_text_for_user(user_id: int) -> str:
+    stats = get_user_stats_from_db(user_id)
+    total_answered = stats["total_answered"]
+    correct = stats["correct_count"]
+    wrong = stats["wrong_count"]
+    accuracy = (correct / total_answered * 100) if total_answered else 0
+    wrong_count = len(get_wrong_question_ids(user_id))
+    daily_status = "Açık" if get_daily_quiz_enabled(user_id) else "Kapalı"
+
+    return (
+        "📊 *İstatistiklerin*\n\n"
+        f"Toplam cevaplanan: *{total_answered}*\n"
+        f"Doğru: *{correct}*\n"
+        f"Yanlış: *{wrong}*\n"
+        f"Başarı oranı: *%{accuracy:.1f}*\n"
+        f"Biriken yanlış soru sayısı: *{wrong_count}*\n"
+        f"Günlük deneme: *{daily_status}*"
     )
 
 
@@ -435,8 +482,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
     if update.message:
         await update.message.reply_text(
-            "Terfi sınavı botuna hoş geldin.\n\nBir mod seç:",
-            reply_markup=main_menu_keyboard()
+            "🎯 *Terfi Sınavı Botuna Hoş Geldin*\n\n"
+            "Buradan test modunu seçebilirsin:\n"
+            "• Karma test\n"
+            "• Konuya göre test\n"
+            "• Zorluğa göre test\n"
+            "• Yanlışlarını tekrar et\n"
+            "• Günlük deneme başlat\n\n"
+            "Aşağıdaki menüyü kullan 👇",
+            reply_markup=main_menu_keyboard(),
+            parse_mode=ParseMode.MARKDOWN,
         )
 
 
@@ -454,7 +509,7 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not update.effective_user:
+    if not update.effective_user or not update.message:
         return
 
     ensure_user(
@@ -463,39 +518,30 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         update.effective_user.full_name,
     )
 
-    stats = get_user_stats_from_db(update.effective_user.id)
-    total_answered = stats["total_answered"]
-    correct = stats["correct_count"]
-    wrong = stats["wrong_count"]
-    accuracy = (correct / total_answered * 100) if total_answered else 0
-    wrong_count = len(get_wrong_question_ids(update.effective_user.id))
-    daily_status = "Açık" if get_daily_quiz_enabled(update.effective_user.id) else "Kapalı"
-
-    if update.message:
-        await update.message.reply_text(
-            f"Toplam cevaplanan: {total_answered}\n"
-            f"Doğru: {correct}\n"
-            f"Yanlış: {wrong}\n"
-            f"Başarı oranı: %{accuracy:.1f}\n"
-            f"Biriken yanlış soru sayısı: {wrong_count}\n"
-            f"Günlük deneme: {daily_status}"
-        )
+    await update.message.reply_text(
+        stats_text_for_user(update.effective_user.id),
+        parse_mode=ParseMode.MARKDOWN,
+    )
 
 
 async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     state = get_user_state(context)
 
     text = (
-        f"Test bitti.\n"
-        f"Soru: {state['asked']}\n"
-        f"Doğru: {state['score']}\n"
-        f"Yanlış: {state['asked'] - state['score']}"
+        "⛔ *Test bitti.*\n\n"
+        f"Toplam soru: *{state['asked']}*\n"
+        f"Doğru: *{state['score']}*\n"
+        f"Yanlış: *{state['asked'] - state['score']}*"
     )
 
     reset_quiz_state(state)
 
     if update.message:
-        await update.message.reply_text(text, reply_markup=main_menu_keyboard())
+        await update.message.reply_text(
+            text,
+            reply_markup=main_menu_keyboard(),
+            parse_mode=ParseMode.MARKDOWN,
+        )
 
 
 async def daily_on_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -509,7 +555,8 @@ async def daily_on_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     )
     set_daily_quiz_enabled(update.effective_user.id, True)
     await update.message.reply_text(
-        f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında hatırlatma mesajı alacaksın."
+        f"🌞 Günlük deneme açıldı.\nHer gün saat *{DAILY_QUIZ_HOUR:02d}:00* civarında hatırlatma mesajı alacaksın.",
+        parse_mode=ParseMode.MARKDOWN,
     )
 
 
@@ -523,7 +570,7 @@ async def daily_off_command(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         update.effective_user.full_name,
     )
     set_daily_quiz_enabled(update.effective_user.id, False)
-    await update.message.reply_text("Günlük deneme kapatıldı.")
+    await update.message.reply_text("🌙 Günlük deneme kapatıldı.")
 
 
 async def daily_now_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -543,7 +590,7 @@ async def daily_now_command(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     pool = QUESTIONS.copy()
     state["queue"] = build_queue(pool, DAILY_QUIZ_COUNT)
 
-    await update.message.reply_text(f"Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
+    await update.message.reply_text(f"📝 Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
     await send_next_question(update, context)
 
 
@@ -555,12 +602,13 @@ async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE)
         target = update.effective_message if update.effective_message else update.callback_query.message
 
         await target.reply_text(
-            f"Test tamamlandı.\n"
-            f"Toplam soru: {state['asked']}\n"
-            f"Doğru: {state['score']}\n"
-            f"Yanlış: {state['asked'] - state['score']}\n"
-            f"Başarı: %{accuracy:.1f}",
-            reply_markup=main_menu_keyboard()
+            "🏁 *Test tamamlandı.*\n\n"
+            f"Toplam soru: *{state['asked']}*\n"
+            f"Doğru: *{state['score']}*\n"
+            f"Yanlış: *{state['asked'] - state['score']}*\n"
+            f"Başarı: *%{accuracy:.1f}*",
+            reply_markup=main_menu_keyboard(),
+            parse_mode=ParseMode.MARKDOWN,
         )
         return
 
@@ -568,10 +616,13 @@ async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE)
     state["current_question"] = q
     state["asked"] += 1
 
+    total_count = state["asked"] + len(state["queue"])
+
     target = update.effective_message if update.effective_message else update.callback_query.message
     await target.reply_text(
-        question_text(q, state["asked"]),
-        reply_markup=answer_keyboard(q)
+        question_text(q, state["asked"], total_count) + "\n\n" + options_text(q),
+        reply_markup=answer_keyboard(q),
+        parse_mode=ParseMode.MARKDOWN,
     )
 
 
@@ -595,27 +646,27 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         reset_quiz_state(state)
         state["mode"] = "random"
         await query.message.reply_text(
-            "Kaç soru çözmek istiyorsun?",
-            reply_markup=question_count_keyboard("count_random")
+            "🎲 Kaç soru çözmek istiyorsun?",
+            reply_markup=question_count_keyboard("count_random"),
         )
         return
 
     if action == "topic":
-        rows = [[InlineKeyboardButton(topic, callback_data=f"topic|{topic}")] for topic in unique_topics()]
-        rows.append([InlineKeyboardButton("Hepsi", callback_data="topic|hepsi")])
+        rows = [[InlineKeyboardButton(f"📚 {topic}", callback_data=f"topic|{topic}")] for topic in unique_topics()]
+        rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="topic|hepsi")])
 
         await query.message.reply_text(
-            "Bir konu seç:",
+            "🧩 Bir konu seç:",
             reply_markup=InlineKeyboardMarkup(rows)
         )
         return
 
     if action == "difficulty":
-        rows = [[InlineKeyboardButton(diff, callback_data=f"difficulty|{diff}")] for diff in unique_difficulties()]
-        rows.append([InlineKeyboardButton("Hepsi", callback_data="difficulty|hepsi")])
+        rows = [[InlineKeyboardButton(f"⚡ {diff.capitalize()}", callback_data=f"difficulty|{diff}")] for diff in unique_difficulties()]
+        rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="difficulty|hepsi")])
 
         await query.message.reply_text(
-            "Bir zorluk seç:",
+            "⚡ Bir zorluk seç:",
             reply_markup=InlineKeyboardMarkup(rows)
         )
         return
@@ -629,40 +680,29 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         reset_quiz_state(state)
         state["mode"] = "wrong"
         await query.message.reply_text(
-            "Yanlışlarından kaç soru çözmek istiyorsun?",
+            "🔁 Yanlışlarından kaç soru çözmek istiyorsun?",
             reply_markup=question_count_keyboard("count_wrong")
         )
         return
 
     if action == "stats":
-        stats = get_user_stats_from_db(update.effective_user.id)
-        total_answered = stats["total_answered"]
-        correct = stats["correct_count"]
-        wrong = stats["wrong_count"]
-        accuracy = (correct / total_answered * 100) if total_answered else 0
-        wrong_count = len(get_wrong_question_ids(update.effective_user.id))
-        daily_status = "Açık" if get_daily_quiz_enabled(update.effective_user.id) else "Kapalı"
-
         await query.message.reply_text(
-            f"Toplam cevaplanan: {total_answered}\n"
-            f"Doğru: {correct}\n"
-            f"Yanlış: {wrong}\n"
-            f"Başarı oranı: %{accuracy:.1f}\n"
-            f"Biriken yanlış soru sayısı: {wrong_count}\n"
-            f"Günlük deneme: {daily_status}"
+            stats_text_for_user(update.effective_user.id),
+            parse_mode=ParseMode.MARKDOWN,
         )
         return
 
     if action == "daily_on":
         set_daily_quiz_enabled(update.effective_user.id, True)
         await query.message.reply_text(
-            f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında hatırlatma mesajı alacaksın."
+            f"🌞 Günlük deneme açıldı.\nHer gün saat *{DAILY_QUIZ_HOUR:02d}:00* civarında hatırlatma mesajı alacaksın.",
+            parse_mode=ParseMode.MARKDOWN,
         )
         return
 
     if action == "daily_off":
         set_daily_quiz_enabled(update.effective_user.id, False)
-        await query.message.reply_text("Günlük deneme kapatıldı.")
+        await query.message.reply_text("🌙 Günlük deneme kapatıldı.")
         return
 
     if action == "daily_now":
@@ -672,8 +712,23 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         pool = QUESTIONS.copy()
         state["queue"] = build_queue(pool, DAILY_QUIZ_COUNT)
 
-        await query.message.reply_text(f"Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
+        await query.message.reply_text(f"📝 Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
         await send_next_question(update, context)
+        return
+
+    if action == "finish_test":
+        text = (
+            "⛔ *Test sonlandırıldı.*\n\n"
+            f"Toplam soru: *{state['asked']}*\n"
+            f"Doğru: *{state['score']}*\n"
+            f"Yanlış: *{state['asked'] - state['score']}*"
+        )
+        reset_quiz_state(state)
+        await query.message.reply_text(
+            text,
+            reply_markup=main_menu_keyboard(),
+            parse_mode=ParseMode.MARKDOWN
+        )
         return
 
 
@@ -689,8 +744,9 @@ async def handle_topic_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
     state["selected_topic"] = selected_topic
 
     await query.message.reply_text(
-        f"Konu seçildi: {selected_topic}\nKaç soru çözmek istiyorsun?",
-        reply_markup=question_count_keyboard("count_topic")
+        f"📚 Konu seçildi: *{selected_topic}*\nKaç soru çözmek istiyorsun?",
+        reply_markup=question_count_keyboard("count_topic"),
+        parse_mode=ParseMode.MARKDOWN,
     )
 
 
@@ -706,8 +762,9 @@ async def handle_difficulty_click(update: Update, context: ContextTypes.DEFAULT_
     state["selected_difficulty"] = selected_difficulty
 
     await query.message.reply_text(
-        f"Zorluk seçildi: {selected_difficulty}\nKaç soru çözmek istiyorsun?",
-        reply_markup=question_count_keyboard("count_difficulty")
+        f"⚡ Zorluk seçildi: *{selected_difficulty.capitalize()}*\nKaç soru çözmek istiyorsun?",
+        reply_markup=question_count_keyboard("count_difficulty"),
+        parse_mode=ParseMode.MARKDOWN,
     )
 
 
@@ -726,7 +783,7 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if mode_key == "count_random":
         pool = QUESTIONS.copy()
         state["queue"] = build_queue(pool, selected_count)
-        await query.message.reply_text(f"{selected_count} soruluk karma test başladı.")
+        await query.message.reply_text(f"🎲 {selected_count} soruluk karma test başladı.")
         await send_next_question(update, context)
         return
 
@@ -739,7 +796,8 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
             return
 
         await query.message.reply_text(
-            f"Konu modu başladı: {state.get('selected_topic')} | Soru sayısı: {selected_count}"
+            f"📚 Konu modu başladı: *{state.get('selected_topic')}*\nSoru sayısı: *{selected_count}*",
+            parse_mode=ParseMode.MARKDOWN,
         )
         await send_next_question(update, context)
         return
@@ -753,7 +811,8 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
             return
 
         await query.message.reply_text(
-            f"Zorluk modu başladı: {state.get('selected_difficulty')} | Soru sayısı: {selected_count}"
+            f"⚡ Zorluk modu başladı: *{state.get('selected_difficulty').capitalize()}*\nSoru sayısı: *{selected_count}*",
+            parse_mode=ParseMode.MARKDOWN,
         )
         await send_next_question(update, context)
         return
@@ -767,7 +826,8 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
             return
 
         await query.message.reply_text(
-            f"Yanlışlarım modu başladı. Soru sayısı: {selected_count}"
+            f"🔁 Yanlışlarım modu başladı.\nSoru sayısı: *{selected_count}*",
+            parse_mode=ParseMode.MARKDOWN,
         )
         await send_next_question(update, context)
         return
@@ -808,9 +868,10 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         )
 
         await query.message.reply_text(
-            f"Geçildi.\n"
-            f"Doğru cevap: {current_question['answer']}\n"
-            f"Açıklama: {current_question['explanation']}"
+            "⏭ *Soru geçildi.*\n\n"
+            f"Doğru cevap: *{current_question['answer']}*\n\n"
+            f"📌 Açıklama:\n{current_question['explanation']}",
+            parse_mode=ParseMode.MARKDOWN,
         )
 
         state["current_question"] = None
@@ -824,14 +885,18 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
         state["score"] += 1
         remove_wrong_question(user_id, current_question["id"])
         update_user_stats(user_id, True)
-        result_text = f"Doğru.\nAçıklama: {current_question['explanation']}"
+        result_text = (
+            "✅ *Doğru cevap!*\n\n"
+            f"📌 Açıklama:\n{current_question['explanation']}"
+        )
     else:
         add_wrong_question(user_id, current_question["id"])
         update_user_stats(user_id, False)
         result_text = (
-            f"Yanlış. Senin cevabın: {selected}\n"
-            f"Doğru cevap: {current_question['answer']}\n"
-            f"Açıklama: {current_question['explanation']}"
+            "❌ *Yanlış cevap!*\n\n"
+            f"Senin cevabın: *{selected}*\n"
+            f"Doğru cevap: *{current_question['answer']}*\n\n"
+            f"📌 Açıklama:\n{current_question['explanation']}"
         )
 
     state["history"].append(
@@ -844,7 +909,7 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     )
 
     state["current_question"] = None
-    await query.message.reply_text(result_text)
+    await query.message.reply_text(result_text, parse_mode=ParseMode.MARKDOWN)
     await send_next_question(update, context)
 
 
@@ -869,9 +934,10 @@ def run_daily_scheduler() -> None:
                             APP.bot.send_message(
                                 chat_id=user_id,
                                 text=(
-                                    "Günlük denemen hazır.\n"
-                                    f"Başlatmak için /daily_now yazabilir veya menüden 'Bugünün Denemesi'ne basabilirsin."
+                                    "🌞 *Günlük denemen hazır.*\n\n"
+                                    "Başlatmak için /daily_now yazabilir veya menüden *Bugünün Denemesi*'ne basabilirsin."
                                 ),
+                                parse_mode=ParseMode.MARKDOWN,
                             ),
                             BOT_LOOP,
                         )
