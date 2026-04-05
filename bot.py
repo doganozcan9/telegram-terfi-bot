@@ -3,10 +3,13 @@ import json
 import logging
 import os
 import random
+import sqlite3
 import threading
+import time
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -28,7 +31,13 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 BASE_DIR = Path(__file__).resolve().parent
 QUESTIONS_FILE = BASE_DIR / "questions.json"
+DB_FILE = BASE_DIR / "quiz_bot.db"
+
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+DAILY_QUIZ_HOUR = int(os.getenv("DAILY_QUIZ_HOUR", "9"))  # Türkiye saati varsayımıyla 09:00
+DAILY_QUIZ_COUNT = 10
+
+APP: Optional[Application] = None
 
 
 def run_web_server() -> None:
@@ -45,6 +54,199 @@ def run_web_server() -> None:
     port = int(os.environ.get("PORT", 10000))
     server = HTTPServer(("0.0.0.0", port), Handler)
     server.serve_forever()
+
+
+def get_db_connection() -> sqlite3.Connection:
+    conn = sqlite3.connect(DB_FILE, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+
+def init_db() -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY,
+            username TEXT,
+            full_name TEXT,
+            daily_quiz_enabled INTEGER DEFAULT 0,
+            last_daily_sent_date TEXT
+        )
+    """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS user_stats (
+            user_id INTEGER PRIMARY KEY,
+            total_answered INTEGER DEFAULT 0,
+            correct_count INTEGER DEFAULT 0,
+            wrong_count INTEGER DEFAULT 0,
+            FOREIGN KEY(user_id) REFERENCES users(user_id)
+        )
+    """)
+
+    cur.execute("""
+        CREATE TABLE IF NOT EXISTS wrong_questions (
+            user_id INTEGER,
+            question_id INTEGER,
+            PRIMARY KEY (user_id, question_id)
+        )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+def ensure_user(user_id: int, username: str | None, full_name: str | None) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        INSERT INTO users (user_id, username, full_name, daily_quiz_enabled, last_daily_sent_date)
+        VALUES (?, ?, ?, 0, NULL)
+        ON CONFLICT(user_id) DO UPDATE SET
+            username=excluded.username,
+            full_name=excluded.full_name
+    """, (user_id, username, full_name))
+
+    cur.execute("""
+        INSERT INTO user_stats (user_id, total_answered, correct_count, wrong_count)
+        VALUES (?, 0, 0, 0)
+        ON CONFLICT(user_id) DO NOTHING
+    """, (user_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def get_user_stats_from_db(user_id: int) -> Dict[str, int]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT total_answered, correct_count, wrong_count
+        FROM user_stats
+        WHERE user_id = ?
+    """, (user_id,))
+    row = cur.fetchone()
+    conn.close()
+
+    if not row:
+        return {"total_answered": 0, "correct_count": 0, "wrong_count": 0}
+
+    return {
+        "total_answered": row["total_answered"],
+        "correct_count": row["correct_count"],
+        "wrong_count": row["wrong_count"],
+    }
+
+
+def update_user_stats(user_id: int, is_correct: bool) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    if is_correct:
+        cur.execute("""
+            UPDATE user_stats
+            SET total_answered = total_answered + 1,
+                correct_count = correct_count + 1
+            WHERE user_id = ?
+        """, (user_id,))
+    else:
+        cur.execute("""
+            UPDATE user_stats
+            SET total_answered = total_answered + 1,
+                wrong_count = wrong_count + 1
+            WHERE user_id = ?
+        """, (user_id,))
+
+    conn.commit()
+    conn.close()
+
+
+def add_wrong_question(user_id: int, question_id: int) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT OR IGNORE INTO wrong_questions (user_id, question_id)
+        VALUES (?, ?)
+    """, (user_id, question_id))
+    conn.commit()
+    conn.close()
+
+
+def remove_wrong_question(user_id: int, question_id: int) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        DELETE FROM wrong_questions
+        WHERE user_id = ? AND question_id = ?
+    """, (user_id, question_id))
+    conn.commit()
+    conn.close()
+
+
+def get_wrong_question_ids(user_id: int) -> List[int]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT question_id FROM wrong_questions
+        WHERE user_id = ?
+    """, (user_id,))
+    rows = cur.fetchall()
+    conn.close()
+    return [row["question_id"] for row in rows]
+
+
+def set_daily_quiz_enabled(user_id: int, enabled: bool) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        UPDATE users
+        SET daily_quiz_enabled = ?
+        WHERE user_id = ?
+    """, (1 if enabled else 0, user_id))
+    conn.commit()
+    conn.close()
+
+
+def get_daily_quiz_enabled(user_id: int) -> bool:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT daily_quiz_enabled
+        FROM users
+        WHERE user_id = ?
+    """, (user_id,))
+    row = cur.fetchone()
+    conn.close()
+    return bool(row["daily_quiz_enabled"]) if row else False
+
+
+def get_daily_quiz_users_to_send(today_str: str) -> List[int]:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT user_id
+        FROM users
+        WHERE daily_quiz_enabled = 1
+          AND (last_daily_sent_date IS NULL OR last_daily_sent_date <> ?)
+    """, (today_str,))
+    rows = cur.fetchall()
+    conn.close()
+    return [row["user_id"] for row in rows]
+
+
+def mark_daily_sent(user_id: int, today_str: str) -> None:
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        UPDATE users
+        SET last_daily_sent_date = ?
+        WHERE user_id = ?
+    """, (today_str, user_id))
+    conn.commit()
+    conn.close()
 
 
 def load_questions() -> List[Dict[str, Any]]:
@@ -89,6 +291,7 @@ def load_questions() -> List[Dict[str, Any]]:
 
 
 QUESTIONS = load_questions()
+QUESTION_MAP = {q["id"]: q for q in QUESTIONS}
 
 
 def get_user_state(context: ContextTypes.DEFAULT_TYPE) -> Dict[str, Any]:
@@ -102,7 +305,6 @@ def get_user_state(context: ContextTypes.DEFAULT_TYPE) -> Dict[str, Any]:
             "score": 0,
             "asked": 0,
             "queue": [],
-            "wrong_questions": [],
             "current_question": None,
             "history": [],
         },
@@ -110,7 +312,6 @@ def get_user_state(context: ContextTypes.DEFAULT_TYPE) -> Dict[str, Any]:
 
 
 def reset_quiz_state(state: Dict[str, Any]) -> None:
-    wrongs = state.get("wrong_questions", [])
     history = state.get("history", [])
     state.clear()
     state.update(
@@ -122,7 +323,6 @@ def reset_quiz_state(state: Dict[str, Any]) -> None:
             "score": 0,
             "asked": 0,
             "queue": [],
-            "wrong_questions": wrongs,
             "current_question": None,
             "history": history,
         }
@@ -155,6 +355,17 @@ def filter_questions(
         filtered = [q for q in filtered if q["difficulty"] == difficulty]
 
     return filtered
+
+
+def build_queue(pool: List[Dict[str, Any]], question_count: int) -> List[Dict[str, Any]]:
+    shuffled = pool.copy()
+    random.shuffle(shuffled)
+    return shuffled[: min(question_count, len(shuffled))]
+
+
+def get_wrong_questions_for_user(user_id: int) -> List[Dict[str, Any]]:
+    wrong_ids = get_wrong_question_ids(user_id)
+    return [QUESTION_MAP[qid] for qid in wrong_ids if qid in QUESTION_MAP]
 
 
 def question_text(q: Dict[str, Any], asked_no: int | None = None) -> str:
@@ -192,6 +403,9 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton("Zorluk Seç", callback_data="menu|difficulty")],
             [InlineKeyboardButton("Yanlışlarım", callback_data="menu|wrong")],
             [InlineKeyboardButton("İstatistik", callback_data="menu|stats")],
+            [InlineKeyboardButton("Günlük Deneme Aç", callback_data="menu|daily_on")],
+            [InlineKeyboardButton("Günlük Deneme Kapat", callback_data="menu|daily_off")],
+            [InlineKeyboardButton("Bugünün Denemesi", callback_data="menu|daily_now")],
         ]
     )
 
@@ -206,15 +420,16 @@ def question_count_keyboard(prefix: str) -> InlineKeyboardMarkup:
     )
 
 
-def build_queue(pool: List[Dict[str, Any]], question_count: int) -> List[Dict[str, Any]]:
-    shuffled = pool.copy()
-    random.shuffle(shuffled)
-    return shuffled[: min(question_count, len(shuffled))]
-
-
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     state = get_user_state(context)
     reset_quiz_state(state)
+
+    if update.effective_user:
+        ensure_user(
+            update.effective_user.id,
+            update.effective_user.username,
+            update.effective_user.full_name,
+        )
 
     if update.message:
         await update.message.reply_text(
@@ -229,17 +444,30 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             "/start - ana menü\n"
             "/help - yardım\n"
             "/stats - istatistik\n"
-            "/stop - testi bitir"
+            "/stop - testi bitir\n"
+            "/daily_on - günlük denemeyi aç\n"
+            "/daily_off - günlük denemeyi kapat\n"
+            "/daily_now - bugünün denemesini başlat"
         )
 
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    state = get_user_state(context)
+    if not update.effective_user:
+        return
 
-    total_answered = len(state["history"])
-    correct = sum(1 for item in state["history"] if item["is_correct"])
-    wrong = total_answered - correct
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+
+    stats = get_user_stats_from_db(update.effective_user.id)
+    total_answered = stats["total_answered"]
+    correct = stats["correct_count"]
+    wrong = stats["wrong_count"]
     accuracy = (correct / total_answered * 100) if total_answered else 0
+    wrong_count = len(get_wrong_question_ids(update.effective_user.id))
+    daily_status = "Açık" if get_daily_quiz_enabled(update.effective_user.id) else "Kapalı"
 
     if update.message:
         await update.message.reply_text(
@@ -247,7 +475,8 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             f"Doğru: {correct}\n"
             f"Yanlış: {wrong}\n"
             f"Başarı oranı: %{accuracy:.1f}\n"
-            f"Biriken yanlış soru sayısı: {len(state['wrong_questions'])}"
+            f"Biriken yanlış soru sayısı: {wrong_count}\n"
+            f"Günlük deneme: {daily_status}"
         )
 
 
@@ -265,6 +494,93 @@ async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
 
     if update.message:
         await update.message.reply_text(text, reply_markup=main_menu_keyboard())
+
+
+async def daily_on_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not update.effective_user or not update.message:
+        return
+
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+    set_daily_quiz_enabled(update.effective_user.id, True)
+    await update.message.reply_text(
+        f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında mesaj alacaksın."
+    )
+
+
+async def daily_off_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not update.effective_user or not update.message:
+        return
+
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+    set_daily_quiz_enabled(update.effective_user.id, False)
+    await update.message.reply_text("Günlük deneme kapatıldı.")
+
+
+async def start_daily_quiz_for_user(
+    user_id: int,
+    context: ContextTypes.DEFAULT_TYPE | None = None,
+) -> None:
+    if APP is None:
+        return
+
+    pool = QUESTIONS.copy()
+    queue = build_queue(pool, DAILY_QUIZ_COUNT)
+
+    user_data = APP.user_data.setdefault(user_id, {})
+    state = user_data.setdefault(
+        "quiz_state",
+        {
+            "mode": None,
+            "selected_topic": None,
+            "selected_difficulty": None,
+            "question_count": 10,
+            "score": 0,
+            "asked": 0,
+            "queue": [],
+            "current_question": None,
+            "history": [],
+        },
+    )
+
+    reset_quiz_state(state)
+    state["mode"] = "daily"
+    state["question_count"] = DAILY_QUIZ_COUNT
+    state["queue"] = queue
+
+    await APP.bot.send_message(
+        chat_id=user_id,
+        text=f"Günün denemesi hazır. {DAILY_QUIZ_COUNT} soruluk günlük test başladı."
+    )
+
+    if state["queue"]:
+        q = state["queue"].pop(0)
+        state["current_question"] = q
+        state["asked"] += 1
+        await APP.bot.send_message(
+            chat_id=user_id,
+            text=question_text(q, state["asked"]),
+            reply_markup=answer_keyboard(q)
+        )
+
+
+async def daily_now_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not update.effective_user:
+        return
+
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+    await start_daily_quiz_for_user(update.effective_user.id, context)
 
 
 async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -300,6 +616,15 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     await query.answer()
     state = get_user_state(context)
 
+    if not update.effective_user:
+        return
+
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+
     _, action = query.data.split("|", 1)
 
     if action == "random":
@@ -332,7 +657,8 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         return
 
     if action == "wrong":
-        if not state["wrong_questions"]:
+        wrong_questions = get_wrong_questions_for_user(update.effective_user.id)
+        if not wrong_questions:
             await query.message.reply_text("Henüz biriken yanlış soru yok.")
             return
 
@@ -345,18 +671,38 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         return
 
     if action == "stats":
-        total_answered = len(state["history"])
-        correct = sum(1 for item in state["history"] if item["is_correct"])
-        wrong = total_answered - correct
+        stats = get_user_stats_from_db(update.effective_user.id)
+        total_answered = stats["total_answered"]
+        correct = stats["correct_count"]
+        wrong = stats["wrong_count"]
         accuracy = (correct / total_answered * 100) if total_answered else 0
+        wrong_count = len(get_wrong_question_ids(update.effective_user.id))
+        daily_status = "Açık" if get_daily_quiz_enabled(update.effective_user.id) else "Kapalı"
 
         await query.message.reply_text(
             f"Toplam cevaplanan: {total_answered}\n"
             f"Doğru: {correct}\n"
             f"Yanlış: {wrong}\n"
             f"Başarı oranı: %{accuracy:.1f}\n"
-            f"Biriken yanlış soru sayısı: {len(state['wrong_questions'])}"
+            f"Biriken yanlış soru sayısı: {wrong_count}\n"
+            f"Günlük deneme: {daily_status}"
         )
+        return
+
+    if action == "daily_on":
+        set_daily_quiz_enabled(update.effective_user.id, True)
+        await query.message.reply_text(
+            f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında mesaj alacaksın."
+        )
+        return
+
+    if action == "daily_off":
+        set_daily_quiz_enabled(update.effective_user.id, False)
+        await query.message.reply_text("Günlük deneme kapatıldı.")
+        return
+
+    if action == "daily_now":
+        await start_daily_quiz_for_user(update.effective_user.id, context)
         return
 
 
@@ -399,6 +745,9 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
     await query.answer()
     state = get_user_state(context)
 
+    if not update.effective_user:
+        return
+
     mode_key, count_str = query.data.split("|", 1)
     selected_count = int(count_str)
     state["question_count"] = selected_count
@@ -439,7 +788,7 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
         return
 
     if mode_key == "count_wrong":
-        pool = state["wrong_questions"].copy()
+        pool = get_wrong_questions_for_user(update.effective_user.id)
         state["queue"] = build_queue(pool, selected_count)
 
         if not state["queue"]:
@@ -459,12 +808,25 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     state = get_user_state(context)
     current_question = state.get("current_question")
 
+    if not update.effective_user:
+        return
+
+    ensure_user(
+        update.effective_user.id,
+        update.effective_user.username,
+        update.effective_user.full_name,
+    )
+
     if not current_question:
         await query.message.reply_text("Aktif soru bulunamadı. /start ile yeniden başla.")
         return
 
+    user_id = update.effective_user.id
+
     if query.data == "skip":
-        state["wrong_questions"].append(current_question)
+        add_wrong_question(user_id, current_question["id"])
+        update_user_stats(user_id, False)
+
         state["history"].append(
             {
                 "question_id": current_question["id"],
@@ -489,9 +851,12 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
     if is_correct:
         state["score"] += 1
+        remove_wrong_question(user_id, current_question["id"])
+        update_user_stats(user_id, True)
         result_text = f"Doğru.\nAçıklama: {current_question['explanation']}"
     else:
-        state["wrong_questions"].append(current_question)
+        add_wrong_question(user_id, current_question["id"])
+        update_user_stats(user_id, False)
         result_text = (
             f"Yanlış. Senin cevabın: {selected}\n"
             f"Doğru cevap: {current_question['answer']}\n"
@@ -512,19 +877,64 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     await send_next_question(update, context)
 
 
+def run_daily_scheduler() -> None:
+    global APP
+
+    while True:
+        try:
+            now = datetime.now()
+            today_str = now.strftime("%Y-%m-%d")
+
+            if now.hour == DAILY_QUIZ_HOUR and now.minute == 0 and APP is not None:
+                user_ids = get_daily_quiz_users_to_send(today_str)
+
+                for user_id in user_ids:
+                    try:
+                        asyncio.run_coroutine_threadsafe(
+                            APP.bot.send_message(
+                                chat_id=user_id,
+                                text="Günlük denemen hazır. Başlatmak için menüden 'Bugünün Denemesi'ne basabilir veya /daily_now yazabilirsin."
+                            ),
+                            APP.bot._application.create_task.__self__.loop if hasattr(APP.bot, "_application") else asyncio.get_event_loop()
+                        )
+                        mark_daily_sent(user_id, today_str)
+                    except Exception as e:
+                        logger.warning(f"Günlük deneme mesajı gönderilemedi: {e}")
+
+                time.sleep(60)
+
+            time.sleep(20)
+        except Exception as e:
+            logger.warning(f"Günlük scheduler hatası: {e}")
+            time.sleep(30)
+
+
+async def post_init(application: Application) -> None:
+    global APP
+    APP = application
+
+
 def main() -> None:
+    global APP
+
     if not TOKEN:
         raise ValueError("TELEGRAM_BOT_TOKEN tanımlı değil.")
+
+    init_db()
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    application = Application.builder().token(TOKEN).build()
+    application = Application.builder().token(TOKEN).post_init(post_init).build()
+    APP = application
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
     application.add_handler(CommandHandler("stats", stats_command))
     application.add_handler(CommandHandler("stop", stop_command))
+    application.add_handler(CommandHandler("daily_on", daily_on_command))
+    application.add_handler(CommandHandler("daily_off", daily_off_command))
+    application.add_handler(CommandHandler("daily_now", daily_now_command))
 
     application.add_handler(CallbackQueryHandler(handle_menu_click, pattern=r"^menu\|"))
     application.add_handler(CallbackQueryHandler(handle_topic_click, pattern=r"^topic\|"))
@@ -536,6 +946,9 @@ def main() -> None:
 
     web_thread = threading.Thread(target=run_web_server, daemon=True)
     web_thread.start()
+
+    scheduler_thread = threading.Thread(target=run_daily_scheduler, daemon=True)
+    scheduler_thread.start()
 
     application.run_polling(stop_signals=None)
 
