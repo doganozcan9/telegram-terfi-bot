@@ -34,10 +34,11 @@ QUESTIONS_FILE = BASE_DIR / "questions.json"
 DB_FILE = BASE_DIR / "quiz_bot.db"
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
-DAILY_QUIZ_HOUR = int(os.getenv("DAILY_QUIZ_HOUR", "9"))  # Türkiye saati varsayımıyla 09:00
+DAILY_QUIZ_HOUR = int(os.getenv("DAILY_QUIZ_HOUR", "9"))
 DAILY_QUIZ_COUNT = 10
 
 APP: Optional[Application] = None
+BOT_LOOP: Optional[asyncio.AbstractEventLoop] = None
 
 
 def run_web_server() -> None:
@@ -190,7 +191,8 @@ def get_wrong_question_ids(user_id: int) -> List[int]:
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
-        SELECT question_id FROM wrong_questions
+        SELECT question_id
+        FROM wrong_questions
         WHERE user_id = ?
     """, (user_id,))
     rows = cur.fetchall()
@@ -507,7 +509,7 @@ async def daily_on_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     )
     set_daily_quiz_enabled(update.effective_user.id, True)
     await update.message.reply_text(
-        f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında mesaj alacaksın."
+        f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında hatırlatma mesajı alacaksın."
     )
 
 
@@ -524,55 +526,8 @@ async def daily_off_command(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     await update.message.reply_text("Günlük deneme kapatıldı.")
 
 
-async def start_daily_quiz_for_user(
-    user_id: int,
-    context: ContextTypes.DEFAULT_TYPE | None = None,
-) -> None:
-    if APP is None:
-        return
-
-    pool = QUESTIONS.copy()
-    queue = build_queue(pool, DAILY_QUIZ_COUNT)
-
-    user_data = APP.user_data.setdefault(user_id, {})
-    state = user_data.setdefault(
-        "quiz_state",
-        {
-            "mode": None,
-            "selected_topic": None,
-            "selected_difficulty": None,
-            "question_count": 10,
-            "score": 0,
-            "asked": 0,
-            "queue": [],
-            "current_question": None,
-            "history": [],
-        },
-    )
-
-    reset_quiz_state(state)
-    state["mode"] = "daily"
-    state["question_count"] = DAILY_QUIZ_COUNT
-    state["queue"] = queue
-
-    await APP.bot.send_message(
-        chat_id=user_id,
-        text=f"Günün denemesi hazır. {DAILY_QUIZ_COUNT} soruluk günlük test başladı."
-    )
-
-    if state["queue"]:
-        q = state["queue"].pop(0)
-        state["current_question"] = q
-        state["asked"] += 1
-        await APP.bot.send_message(
-            chat_id=user_id,
-            text=question_text(q, state["asked"]),
-            reply_markup=answer_keyboard(q)
-        )
-
-
 async def daily_now_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if not update.effective_user:
+    if not update.effective_user or not update.message:
         return
 
     ensure_user(
@@ -580,7 +535,16 @@ async def daily_now_command(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         update.effective_user.username,
         update.effective_user.full_name,
     )
-    await start_daily_quiz_for_user(update.effective_user.id, context)
+
+    state = get_user_state(context)
+    reset_quiz_state(state)
+    state["mode"] = "daily"
+    state["question_count"] = DAILY_QUIZ_COUNT
+    pool = QUESTIONS.copy()
+    state["queue"] = build_queue(pool, DAILY_QUIZ_COUNT)
+
+    await update.message.reply_text(f"Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
+    await send_next_question(update, context)
 
 
 async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -692,7 +656,7 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if action == "daily_on":
         set_daily_quiz_enabled(update.effective_user.id, True)
         await query.message.reply_text(
-            f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında mesaj alacaksın."
+            f"Günlük deneme açıldı. Her gün saat {DAILY_QUIZ_HOUR:02d}:00 civarında hatırlatma mesajı alacaksın."
         )
         return
 
@@ -702,7 +666,14 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         return
 
     if action == "daily_now":
-        await start_daily_quiz_for_user(update.effective_user.id, context)
+        reset_quiz_state(state)
+        state["mode"] = "daily"
+        state["question_count"] = DAILY_QUIZ_COUNT
+        pool = QUESTIONS.copy()
+        state["queue"] = build_queue(pool, DAILY_QUIZ_COUNT)
+
+        await query.message.reply_text(f"Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
+        await send_next_question(update, context)
         return
 
 
@@ -878,44 +849,48 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 
 def run_daily_scheduler() -> None:
-    global APP
+    global APP, BOT_LOOP
 
     while True:
         try:
+            if APP is None or BOT_LOOP is None:
+                time.sleep(5)
+                continue
+
             now = datetime.now()
             today_str = now.strftime("%Y-%m-%d")
 
-            if now.hour == DAILY_QUIZ_HOUR and now.minute == 0 and APP is not None:
+            if now.hour == DAILY_QUIZ_HOUR and now.minute == 0:
                 user_ids = get_daily_quiz_users_to_send(today_str)
 
                 for user_id in user_ids:
                     try:
-                        asyncio.run_coroutine_threadsafe(
+                        future = asyncio.run_coroutine_threadsafe(
                             APP.bot.send_message(
                                 chat_id=user_id,
-                                text="Günlük denemen hazır. Başlatmak için menüden 'Bugünün Denemesi'ne basabilir veya /daily_now yazabilirsin."
+                                text=(
+                                    "Günlük denemen hazır.\n"
+                                    f"Başlatmak için /daily_now yazabilir veya menüden 'Bugünün Denemesi'ne basabilirsin."
+                                ),
                             ),
-                            APP.bot._application.create_task.__self__.loop if hasattr(APP.bot, "_application") else asyncio.get_event_loop()
+                            BOT_LOOP,
                         )
+                        future.result(timeout=20)
                         mark_daily_sent(user_id, today_str)
                     except Exception as e:
-                        logger.warning(f"Günlük deneme mesajı gönderilemedi: {e}")
+                        logger.warning(f"Günlük deneme mesajı gönderilemedi. user_id={user_id}, hata={e}")
 
                 time.sleep(60)
 
             time.sleep(20)
+
         except Exception as e:
             logger.warning(f"Günlük scheduler hatası: {e}")
             time.sleep(30)
 
 
-async def post_init(application: Application) -> None:
-    global APP
-    APP = application
-
-
 def main() -> None:
-    global APP
+    global APP, BOT_LOOP
 
     if not TOKEN:
         raise ValueError("TELEGRAM_BOT_TOKEN tanımlı değil.")
@@ -924,8 +899,9 @@ def main() -> None:
 
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
+    BOT_LOOP = loop
 
-    application = Application.builder().token(TOKEN).post_init(post_init).build()
+    application = Application.builder().token(TOKEN).build()
     APP = application
 
     application.add_handler(CommandHandler("start", start))
