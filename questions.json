@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "question": "TCMB’nin temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "Kamu bankalarının kârını artırmak",
+      "Fiyat istikrarını sağlamak",
+      "Her bankaya eşit kredi vermek",
+      "Dış ticaret açığını tamamen kapatmak",
+      "Borsada işlem yapmak"
+    ],
+    "answer": "B",
+    "explanation": "TCMB’nin asli görevi fiyat istikrarını sağlamaktır.",
+    "topic": "TCMB",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 2,
+    "question": "Zorunlu karşılık oranının artırılması hangi sonucu doğurur?",
+    "options": [
+      "Kredi verme kapasitesini artırır",
+      "Likiditeyi artırır",
+      "Bankaların ayırdığı rezervi azaltır",
+      "Kredi verme kapasitesini azaltır",
+      "Mevduatı ortadan kaldırır"
+    ],
+    "answer": "D",
+    "explanation": "Zorunlu karşılık arttığında bankalar daha fazla rezerv ayırır, kredi kapasitesi azalır.",
+    "topic": "Para Politikası",
+    "difficulty": "zor"
+  },
+  {
+    "id": 3,
+    "question": "5411 sayılı Kanun aşağıdakilerden hangisidir?",
+    "options": [
+      "Türk Ticaret Kanunu",
+      "TCMB Kanunu",
+      "Bankacılık Kanunu",
+      "Borçlar Kanunu",
+      "İcra İflas Kanunu"
+    ],
+    "answer": "C",
+    "explanation": "5411 sayılı düzenleme Bankacılık Kanunu’dur.",
+    "topic": "Mevzuat",
+    "difficulty": "kolay"
+  }
+]
