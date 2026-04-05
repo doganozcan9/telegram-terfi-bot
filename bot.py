@@ -3,6 +3,8 @@ import json
 import logging
 import os
 import random
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -19,13 +21,30 @@ load_dotenv()
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
+    level=logging.WARNING,
 )
 logger = logging.getLogger(__name__)
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 BASE_DIR = Path(__file__).resolve().parent
 QUESTIONS_FILE = BASE_DIR / "questions.json"
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+
+
+def run_web_server() -> None:
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"Bot is running")
+
+        def log_message(self, format, *args):
+            return
+
+    port = int(os.environ.get("PORT", 10000))
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    server.serve_forever()
 
 
 def load_questions() -> List[Dict[str, Any]]:
@@ -179,19 +198,21 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     state = get_user_state(context)
     reset_quiz_state(state)
 
-    await update.message.reply_text(
-        "Terfi sınavı botuna hoş geldin.\n\nBir mod seç:",
-        reply_markup=main_menu_keyboard()
-    )
+    if update.message:
+        await update.message.reply_text(
+            "Terfi sınavı botuna hoş geldin.\n\nBir mod seç:",
+            reply_markup=main_menu_keyboard()
+        )
 
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(
-        "/start - ana menü\n"
-        "/help - yardım\n"
-        "/stats - istatistik\n"
-        "/stop - testi bitir"
-    )
+    if update.message:
+        await update.message.reply_text(
+            "/start - ana menü\n"
+            "/help - yardım\n"
+            "/stats - istatistik\n"
+            "/stop - testi bitir"
+        )
 
 
 async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -202,13 +223,14 @@ async def stats_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     wrong = total_answered - correct
     accuracy = (correct / total_answered * 100) if total_answered else 0
 
-    await update.message.reply_text(
-        f"Toplam cevaplanan: {total_answered}\n"
-        f"Doğru: {correct}\n"
-        f"Yanlış: {wrong}\n"
-        f"Başarı oranı: %{accuracy:.1f}\n"
-        f"Biriken yanlış soru sayısı: {len(state['wrong_questions'])}"
-    )
+    if update.message:
+        await update.message.reply_text(
+            f"Toplam cevaplanan: {total_answered}\n"
+            f"Doğru: {correct}\n"
+            f"Yanlış: {wrong}\n"
+            f"Başarı oranı: %{accuracy:.1f}\n"
+            f"Biriken yanlış soru sayısı: {len(state['wrong_questions'])}"
+        )
 
 
 async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -222,7 +244,9 @@ async def stop_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
     )
 
     reset_quiz_state(state)
-    await update.message.reply_text(text, reply_markup=main_menu_keyboard())
+
+    if update.message:
+        await update.message.reply_text(text, reply_markup=main_menu_keyboard())
 
 
 async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -447,7 +471,11 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_difficulty_click, pattern=r"^difficulty\|"))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
 
-    logger.info("Bot başlatılıyor...")
+    logger.warning("Bot başlatılıyor...")
+
+    web_thread = threading.Thread(target=run_web_server, daemon=True)
+    web_thread.start()
+
     application.run_polling(stop_signals=None)
 
 
