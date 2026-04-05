@@ -98,6 +98,7 @@ def get_user_state(context: ContextTypes.DEFAULT_TYPE) -> Dict[str, Any]:
             "mode": None,
             "selected_topic": None,
             "selected_difficulty": None,
+            "question_count": 10,
             "score": 0,
             "asked": 0,
             "queue": [],
@@ -117,6 +118,7 @@ def reset_quiz_state(state: Dict[str, Any]) -> None:
             "mode": None,
             "selected_topic": None,
             "selected_difficulty": None,
+            "question_count": 10,
             "score": 0,
             "asked": 0,
             "queue": [],
@@ -192,6 +194,22 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton("İstatistik", callback_data="menu|stats")],
         ]
     )
+
+
+def question_count_keyboard(prefix: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("10 Soru", callback_data=f"{prefix}|10")],
+            [InlineKeyboardButton("20 Soru", callback_data=f"{prefix}|20")],
+            [InlineKeyboardButton("50 Soru", callback_data=f"{prefix}|50")],
+        ]
+    )
+
+
+def build_queue(pool: List[Dict[str, Any]], question_count: int) -> List[Dict[str, Any]]:
+    shuffled = pool.copy()
+    random.shuffle(shuffled)
+    return shuffled[: min(question_count, len(shuffled))]
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -287,13 +305,10 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if action == "random":
         reset_quiz_state(state)
         state["mode"] = "random"
-
-        pool = QUESTIONS.copy()
-        random.shuffle(pool)
-        state["queue"] = pool[:10]
-
-        await query.message.reply_text("10 soruluk karma test başladı.")
-        await send_next_question(update, context)
+        await query.message.reply_text(
+            "Kaç soru çözmek istiyorsun?",
+            reply_markup=question_count_keyboard("count_random")
+        )
         return
 
     if action == "topic":
@@ -323,11 +338,10 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
         reset_quiz_state(state)
         state["mode"] = "wrong"
-        state["queue"] = state["wrong_questions"].copy()
-        random.shuffle(state["queue"])
-
-        await query.message.reply_text("Yanlışlarım modu başladı.")
-        await send_next_question(update, context)
+        await query.message.reply_text(
+            "Yanlışlarından kaç soru çözmek istiyorsun?",
+            reply_markup=question_count_keyboard("count_wrong")
+        )
         return
 
     if action == "stats":
@@ -357,16 +371,10 @@ async def handle_topic_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
     state["mode"] = "topic"
     state["selected_topic"] = selected_topic
 
-    pool = filter_questions(topic=selected_topic)
-    random.shuffle(pool)
-    state["queue"] = pool[:10]
-
-    if not state["queue"]:
-        await query.message.reply_text("Bu konu için soru bulunamadı.")
-        return
-
-    await query.message.reply_text(f"Konu modu başladı: {selected_topic}")
-    await send_next_question(update, context)
+    await query.message.reply_text(
+        f"Konu seçildi: {selected_topic}\nKaç soru çözmek istiyorsun?",
+        reply_markup=question_count_keyboard("count_topic")
+    )
 
 
 async def handle_difficulty_click(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -380,16 +388,69 @@ async def handle_difficulty_click(update: Update, context: ContextTypes.DEFAULT_
     state["mode"] = "difficulty"
     state["selected_difficulty"] = selected_difficulty
 
-    pool = filter_questions(difficulty=selected_difficulty)
-    random.shuffle(pool)
-    state["queue"] = pool[:10]
+    await query.message.reply_text(
+        f"Zorluk seçildi: {selected_difficulty}\nKaç soru çözmek istiyorsun?",
+        reply_markup=question_count_keyboard("count_difficulty")
+    )
 
-    if not state["queue"]:
-        await query.message.reply_text("Bu zorluk için soru bulunamadı.")
+
+async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    state = get_user_state(context)
+
+    mode_key, count_str = query.data.split("|", 1)
+    selected_count = int(count_str)
+    state["question_count"] = selected_count
+
+    if mode_key == "count_random":
+        pool = QUESTIONS.copy()
+        state["queue"] = build_queue(pool, selected_count)
+        await query.message.reply_text(f"{selected_count} soruluk karma test başladı.")
+        await send_next_question(update, context)
         return
 
-    await query.message.reply_text(f"Zorluk modu başladı: {selected_difficulty}")
-    await send_next_question(update, context)
+    if mode_key == "count_topic":
+        pool = filter_questions(topic=state.get("selected_topic"))
+        state["queue"] = build_queue(pool, selected_count)
+
+        if not state["queue"]:
+            await query.message.reply_text("Bu konu için soru bulunamadı.")
+            return
+
+        await query.message.reply_text(
+            f"Konu modu başladı: {state.get('selected_topic')} | Soru sayısı: {selected_count}"
+        )
+        await send_next_question(update, context)
+        return
+
+    if mode_key == "count_difficulty":
+        pool = filter_questions(difficulty=state.get("selected_difficulty"))
+        state["queue"] = build_queue(pool, selected_count)
+
+        if not state["queue"]:
+            await query.message.reply_text("Bu zorluk için soru bulunamadı.")
+            return
+
+        await query.message.reply_text(
+            f"Zorluk modu başladı: {state.get('selected_difficulty')} | Soru sayısı: {selected_count}"
+        )
+        await send_next_question(update, context)
+        return
+
+    if mode_key == "count_wrong":
+        pool = state["wrong_questions"].copy()
+        state["queue"] = build_queue(pool, selected_count)
+
+        if not state["queue"]:
+            await query.message.reply_text("Yanlış soru bulunamadı.")
+            return
+
+        await query.message.reply_text(
+            f"Yanlışlarım modu başladı. Soru sayısı: {selected_count}"
+        )
+        await send_next_question(update, context)
+        return
 
 
 async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -455,7 +516,6 @@ def main() -> None:
     if not TOKEN:
         raise ValueError("TELEGRAM_BOT_TOKEN tanımlı değil.")
 
-    # Python 3.14 event loop workaround
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
@@ -469,6 +529,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_menu_click, pattern=r"^menu\|"))
     application.add_handler(CallbackQueryHandler(handle_topic_click, pattern=r"^topic\|"))
     application.add_handler(CallbackQueryHandler(handle_difficulty_click, pattern=r"^difficulty\|"))
+    application.add_handler(CallbackQueryHandler(handle_count_click, pattern=r"^count_"))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
 
     logger.warning("Bot başlatılıyor...")
