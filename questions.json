@@ -1,47 +1,1502 @@
 [
   {
     "id": 1,
-    "question": "TCMB’nin temel amacı aşağıdakilerden hangisidir?",
+    "question": "Aşağıdakilerden hangisi ticari bankaları diğer banka türlerinden ayıran en temel özelliktir?",
     "options": [
-      "Kamu bankalarının kârını artırmak",
-      "Fiyat istikrarını sağlamak",
-      "Her bankaya eşit kredi vermek",
-      "Dış ticaret açığını tamamen kapatmak",
-      "Borsada işlem yapmak"
+      "Mevduat kabul edebilmeleri",
+      "Yalnızca uzun vadeli kredi vermeleri",
+      "Faizsiz bankacılık yapmaları",
+      "Sadece kamuya kredi açmaları",
+      "Para basma yetkisine sahip olmaları"
     ],
-    "answer": "B",
-    "explanation": "TCMB’nin asli görevi fiyat istikrarını sağlamaktır.",
-    "topic": "TCMB",
+    "answer": "A",
+    "explanation": "Kitapta ticari bankaların en ayırt edici özelliğinin mevduat toplama yetkisi olduğu belirtilir.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
     "difficulty": "kolay"
   },
   {
     "id": 2,
-    "question": "Zorunlu karşılık oranının artırılması hangi sonucu doğurur?",
+    "question": "Modern anlamda bankacılık fonksiyonlarını gösteren ve 1609 yılında kurulan banka aşağıdakilerden hangisidir?",
     "options": [
-      "Kredi verme kapasitesini artırır",
-      "Likiditeyi artırır",
-      "Bankaların ayırdığı rezervi azaltır",
-      "Kredi verme kapasitesini azaltır",
-      "Mevduatı ortadan kaldırır"
+      "Bank of England",
+      "Amsterdam Bankası",
+      "Sveriges Riksbank",
+      "Bank-ı Osmanî",
+      "Ziraat Bankası"
     ],
-    "answer": "D",
-    "explanation": "Zorunlu karşılık arttığında bankalar daha fazla rezerv ayırır, kredi kapasitesi azalır.",
-    "topic": "Para Politikası",
-    "difficulty": "zor"
+    "answer": "B",
+    "explanation": "Kitapta modern bankacılığın temelini atan banka olarak 1609 tarihli Amsterdam Bankası verilir.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
   },
   {
     "id": 3,
-    "question": "5411 sayılı Kanun aşağıdakilerden hangisidir?",
+    "question": "Banka teriminin kökeni olarak gösterilen İtalyanca kelime aşağıdakilerden hangisidir?",
     "options": [
-      "Türk Ticaret Kanunu",
-      "TCMB Kanunu",
-      "Bankacılık Kanunu",
-      "Borçlar Kanunu",
-      "İcra İflas Kanunu"
+      "Banco",
+      "Credito",
+      "Moneta",
+      "Tesoro",
+      "Cambio"
+    ],
+    "answer": "A",
+    "explanation": "Banka kelimesinin bankerlerin kullandığı masa anlamındaki 'Banco' kelimesinden geldiği anlatılır.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 4,
+    "question": "Türkiye Cumhuriyet Merkez Bankası hangi kanun uyarınca kurulmuştur?",
+    "options": [
+      "5411 sayılı Bankacılık Kanunu",
+      "1211 sayılı TCMB Kanunu",
+      "1715 sayılı Kanun",
+      "4389 sayılı Bankalar Kanunu",
+      "6102 sayılı Türk Ticaret Kanunu"
     ],
     "answer": "C",
-    "explanation": "5411 sayılı düzenleme Bankacılık Kanunu’dur.",
-    "topic": "Mevzuat",
+    "explanation": "Kitapta TCMB'nin 11 Haziran 1930 tarihli 1715 sayılı kanun uyarınca kurulduğu belirtilir.",
+    "topic": "TCMB ve Para Politikası",
     "difficulty": "kolay"
+  },
+  {
+    "id": 5,
+    "question": "Merkez bankasının asli görevi aşağıdakilerden hangisidir?",
+    "options": [
+      "Kamu bankalarını denetlemek",
+      "Fiyat istikrarını sağlamak",
+      "Sadece dış ticaret açığını azaltmak",
+      "Bankalara ortak olmak",
+      "Bireysel kredi hacmini artırmak"
+    ],
+    "answer": "B",
+    "explanation": "Metinde TCMB'nin asli görevinin fiyat istikrarını sağlamak olduğu açıkça ifade edilir.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 6,
+    "question": "Aşağıdakilerden hangisi bankaların kaydi para yaratma fonksiyonunu en iyi açıklar?",
+    "options": [
+      "Mevduatın tamamını kasada tutmaları",
+      "Toplanan mevduatın kredi olarak ekonomiye aktarılması",
+      "Yalnızca döviz işlemleri yapmaları",
+      "Merkez bankası adına para basmaları",
+      "Sadece kamu tahvili satın almaları"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta mevduatların krediye dönüşmesiyle ekonomide kaydi para yaratıldığı örnekle anlatılır.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 7,
+    "question": "Aşağıdakilerden hangisi cari açığın tanımıdır?",
+    "options": [
+      "İhracatın ithalattan fazla olması",
+      "Sermaye hesabının açık vermesi",
+      "Cari işlemler hesabının açık vermesi",
+      "Bütçe gelirlerinin giderleri aşması",
+      "Rezervlerin artması"
+    ],
+    "answer": "C",
+    "explanation": "Cari açık, ödemeler dengesindeki cari işlemler hesabının açık vermesi olarak tanımlanır.",
+    "topic": "Makroekonomi",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 8,
+    "question": "Mevduatın vadelerine göre sınıflandırılmasında aşağıdakilerden hangisi yer alır?",
+    "options": [
+      "Tasarruf ve ticari mevduat",
+      "Vadesiz, ihbarlı ve vadeli mevduat",
+      "Gerçek ve tüzel kişi mevduatı",
+      "TL ve yabancı para mevduatı",
+      "Resmi ve gayriresmi mevduat"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta mevduatın vadelerine göre vadesiz, ihbarlı ve vadeli olarak ayrıldığı belirtilir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 9,
+    "question": "Bankacılıkta EFT'nin açılımı ve temel işlevi aşağıdakilerden hangisidir?",
+    "options": [
+      "Elektronik Finans Takası; çek tahsili",
+      "Elektronik Fon Transferi; farklı bankalar arası para transferi",
+      "Efektif Fon Takibi; döviz sayımı",
+      "Evraklı Fon Transferi; şube içi virman",
+      "Elektronik Faiz Transferi; faiz tahakkuku"
+    ],
+    "answer": "B",
+    "explanation": "EFT, farklı bankalar arasında elektronik ortamda fon aktarımı için kullanılır.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 10,
+    "question": "Kredi kartının kaybolması veya çalınması halinde ilk yapılması gereken işlem nedir?",
+    "options": [
+      "Yeni kart başvurusu yapmadan beklemek",
+      "Durumu bankaya derhal bildirmek",
+      "Hesabı tamamen kapatmak",
+      "Harcamaları ödemeyi durdurmak",
+      "Savcılığa gitmeden hiçbir şey yapmamak"
+    ],
+    "answer": "B",
+    "explanation": "Kayıp/çalıntı durumda bankaya derhal bildirim yapılması gerekir.",
+    "topic": "Kredi Kartları ve Elektronik Bankacılık",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 11,
+    "question": "5411 sayılı Bankacılık Kanunu'na göre Türkiye'de bankalar hangi şirket türünde kurulabilir?",
+    "options": [
+      "Limited şirket",
+      "Anonim şirket",
+      "Komandit şirket",
+      "Kooperatif",
+      "Adi ortaklık"
+    ],
+    "answer": "B",
+    "explanation": "Metinde bankaların yalnızca anonim şirket olarak kurulabileceği belirtilir.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 12,
+    "question": "Aşağıdakilerden hangisi bankaların kuruluş izniyle ilgili doğru ifadedir?",
+    "options": [
+      "Kuruluş iznini TCMB tek başına verir",
+      "Kuruluş izni için Hazine ve Maliye Bakanlığı onayı yeterlidir",
+      "Kuruluş izni BDDK tarafından verilir ve Kurulun en az beş olumlu oyu gerekir",
+      "Kuruluş iznini Cumhurbaşkanı verir",
+      "Kuruluş izni için noter tescili yeterlidir"
+    ],
+    "answer": "C",
+    "explanation": "Kitapta kuruluş izninin BDDK tarafından verildiği ve en az beş olumlu oy gerektiği belirtilir.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 13,
+    "question": "Aşağıdakilerden hangisi sermaye kökenine göre banka sınıflandırmasında yer alır?",
+    "options": [
+      "Merkez bankası - ticari banka",
+      "Tasarruf bankası - yatırım bankası",
+      "Yerli sermayeli - yabancı sermayeli",
+      "Kamu bankası - katılım bankası",
+      "Mevduat bankası - kalkınma bankası"
+    ],
+    "answer": "C",
+    "explanation": "Sermaye kökenine göre bankalar yerli ve yabancı sermayeli olarak ayrılır.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 14,
+    "question": "Aşağıdakilerden hangisi faaliyetlerine göre banka gruplarından biri değildir?",
+    "options": [
+      "Merkez bankaları",
+      "Ticari bankalar",
+      "Yatırım bankaları",
+      "Kalkınma bankaları",
+      "Sigorta bankaları"
+    ],
+    "answer": "E",
+    "explanation": "Kitapta faaliyetlerine göre merkez, ticari, yatırım, kalkınma ve katılım bankaları sayılır.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 15,
+    "question": "Dünyanın en eski merkez bankası olarak kabul edilen kurum aşağıdakilerden hangisidir?",
+    "options": [
+      "Bank of England",
+      "Sveriges Riksbank",
+      "Federal Reserve",
+      "Amsterdam Bankası",
+      "Bank-ı Osmanî-i Şahane"
+    ],
+    "answer": "B",
+    "explanation": "Metinde 1668'de kurulan İsveç Merkez Bankası'nın en eski merkez bankası olduğu belirtilir.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 16,
+    "question": "Aşağıdakilerden hangisi TCMB'nin görev ve yetkileri arasında yer almaz?",
+    "options": [
+      "Açık piyasa işlemleri yapmak",
+      "Ülkenin altın ve döviz rezervlerini yönetmek",
+      "Zorunlu karşılık esaslarını belirlemek",
+      "Bankaların kuruluş iznini vermek",
+      "Ödemelerde kullanılacak yöntem ve araçları belirlemek"
+    ],
+    "answer": "D",
+    "explanation": "Bankaların kuruluş izni BDDK'nın yetkisindedir; diğer seçenekler TCMB görevleridir.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 17,
+    "question": "Merkez bankasının ekonomik bağımsızlığı aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Kendi personelini seçebilmesi",
+      "Para politikası araçlarını herhangi bir kısıtlama olmadan kullanabilmesi",
+      "Kârını dağıtma oranını belirlemesi",
+      "Bütçesini TBMM onayı olmadan yapması",
+      "Yabancı bankalara kredi açabilmesi"
+    ],
+    "answer": "B",
+    "explanation": "Ekonomik bağımsızlık, para politikası araçlarını serbestçe kullanabilme kabiliyetidir.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 18,
+    "question": "Zorunlu karşılık oranı %10 iken sisteme giren 1.000 TL'nin yaratacağı kaydi para tutarı aşağıdakilerden hangisidir?",
+    "options": [
+      "1.100 TL",
+      "5.000 TL",
+      "9.000 TL",
+      "10.000 TL",
+      "11.000 TL"
+    ],
+    "answer": "D",
+    "explanation": "Formül: Nakit tutar / zorunlu karşılık oranı = 1.000 / 0,10 = 10.000 TL.",
+    "topic": "TCMB ve Para Politikası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 19,
+    "question": "Ödemeler dengesi aşağıdaki hesaplardan hangisini içermez?",
+    "options": [
+      "Cari işlemler hesabı",
+      "Sermaye ve finans hesabı",
+      "Net hata ve noksan",
+      "Bütçe denge hesabı",
+      "Rezerv varlıklar alt kalemi"
+    ],
+    "answer": "D",
+    "explanation": "Bütçe dengesi ödemeler dengesi tablosunun hesabı değildir.",
+    "topic": "Makroekonomi",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 20,
+    "question": "Cari açığın kredi hacmi artışından kaynaklandığı durumlarda TCMB'nin kitapta vurgulanan müdahale yolu aşağıdakilerden hangisidir?",
+    "options": [
+      "Zorunlu karşılıkları artırmak",
+      "Kamu harcamalarını kısmak",
+      "Kurumsal vergiyi düşürmek",
+      "İhracat teşviğini kaldırmak",
+      "Banka birleşmelerini zorunlu kılmak"
+    ],
+    "answer": "A",
+    "explanation": "Metinde kredi genişlemesinden doğan cari açıkta zorunlu karşılıkları artırmanın anlamlı olduğu belirtilir.",
+    "topic": "Makroekonomi",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 21,
+    "question": "Aşağıdakilerden hangisi dış ticaret açığını ifade eder?",
+    "options": [
+      "İhracatın ithalattan fazla olması",
+      "İthalatın ihracattan fazla olması",
+      "Hizmet gelirlerinin giderlerden fazla olması",
+      "Transfer gelirlerinin sıfırlanması",
+      "Rezerv artışı yaşanması"
+    ],
+    "answer": "B",
+    "explanation": "Dış ticaret açığı, mal ithalatı giderlerinin mal ihracatı gelirlerinden yüksek olmasıdır.",
+    "topic": "Makroekonomi",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 22,
+    "question": "Yatırım bankalarının temel özelliği aşağıdakilerden hangisidir?",
+    "options": [
+      "Mevduat kabul edip kısa vadeli kredi vermeleri",
+      "Mevduat kabul etmeyip orta-uzun vadeli finansman ve danışmanlık sağlamaları",
+      "Sadece bireysel kredi vermeleri",
+      "Sadece kambiyo işlemi yapmaları",
+      "Para politikası belirlemeleri"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta yatırım bankalarının mevduat kabul etmediği ve işletmelere orta-uzun vadeli finansman sağladığı belirtilir.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 23,
+    "question": "Kalkınma bankacılığı ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
+    "options": [
+      "Temel amacı günlük likidite yönetimidir",
+      "Mevduat kabul ederek bireysel müşterilere kredi vermektir",
+      "Stratejik sektörleri uzun vadeli finansmanla destekler ve kamu yararı gözetir",
+      "Sadece yabancı bankalara fon sağlar",
+      "Kredi kartı ihracında uzmanlaşmıştır"
+    ],
+    "answer": "C",
+    "explanation": "Kalkınma bankacılığı ekonomik ve sosyal kalkınmayı destekleyen uzun vadeli finansmandır.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 24,
+    "question": "Ticari bankaların en önemli fonksiyonları arasında aşağıdakilerden hangisi bulunmaz?",
+    "options": [
+      "Mevduat toplama",
+      "Kredi verme",
+      "Çek-senet işlemleri",
+      "Kaydi para yaratma",
+      "Para basma"
+    ],
+    "answer": "E",
+    "explanation": "Para basma merkez bankası işlevidir; ticari bankalar mevduat, kredi ve hizmet sunar.",
+    "topic": "Bankacılığın Gelişimi ve Türleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 25,
+    "question": "Kredili mevduat hesabı aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Vadeli mevduata ek faiz verilmesi",
+      "Vadesiz hesaba tanımlanan limit dahilinde eksi bakiyeye düşülebilmesi",
+      "Yalnızca kredi kartı borcunun ödenmesi için açılan hesap",
+      "Katılım hesabına ait finansman limiti",
+      "Sadece ticari müşteriye tanınan çek limiti"
+    ],
+    "answer": "B",
+    "explanation": "Kredili mevduat hesabı, hesabın belirlenen limit dahilinde borçlu çalışabilmesini sağlar.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 26,
+    "question": "Tasarruf sahiplerine göre mevduat sınıflandırmasında aşağıdakilerden hangisi yer alır?",
+    "options": [
+      "Gerçek kişi, ticari kuruluş, resmi kuruluş, bankalar arası mevduat",
+      "Sadece tasarruf ve ticari mevduat",
+      "TL ve yabancı para mevduat",
+      "Vadeli ve vadesiz mevduat",
+      "Bireysel ve kurumsal katılım fonu"
+    ],
+    "answer": "A",
+    "explanation": "Kitapta tasarruf sahiplerine göre gerçek kişiler, ticari kuruluşlar, resmi kuruluşlar ve bankalararası mevduat sınıflaması yapılır.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 27,
+    "question": "Adi şirketlere ilişkin aşağıdaki ifadelerden hangisi doğrudur?",
+    "options": [
+      "Tüzel kişilikleri vardır ve tek ortak imzası yeterlidir",
+      "Tüzel kişilikleri yoktur, hesap açılışında ortaklar adına işlem yapılır",
+      "Sadece resmi mevduat hesabı açabilirler",
+      "Bankalarda hesap açmaları yasaktır",
+      "Katılım bankalarında özel izinle açılır"
+    ],
+    "answer": "B",
+    "explanation": "Adi şirketlerin tüzel kişiliği yoktur; işlemlerde ortakların dikkate alınması gerekir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 28,
+    "question": "Mevduatta gizlilik ve banka sırrı ilkesi aşağıdakilerden hangisini gerektirir?",
+    "options": [
+      "Müşteri bilgilerinin herkesle paylaşılmasını",
+      "Bilgilerin yalnızca yetkili mercilere ve mevzuat çerçevesinde açıklanmasını",
+      "Tüm mevduatların anonim tutulmasını",
+      "Bankanın istediği zaman hesap bilgisi açıklamasını",
+      "Sadece sözlü onayla bilgi verilmesini"
+    ],
+    "answer": "B",
+    "explanation": "Banka sırrı ilkesi, müşteri bilgilerinin ancak yetkili mercilere ve hukuka uygun şekilde verilmesini gerektirir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 29,
+    "question": "Mevduatta zaman aşımı ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
+    "options": [
+      "Hiçbir durumda zaman aşımı yoktur",
+      "Son işlem tarihinden itibaren belirli sürede işlem görmeyen hesaplar zaman aşımına uğrayabilir",
+      "Vadesiz hesaplarda uygulanmaz",
+      "Sadece yabancı para mevduatta vardır",
+      "Bankanın tek taraflı kararıyla başlar"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta zaman aşımının bulunduğu ve son işlem tarihi kavramının önem taşıdığı anlatılır.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 30,
+    "question": "Mevduat hesaplarının açılışında kimlik tespiti bakımından temel yaklaşım aşağıdakilerden hangisidir?",
+    "options": [
+      "Müşteri beyanı yeterlidir",
+      "Kimlik tespitine gerek yoktur",
+      "İlgili mevzuat uyarınca müşteriden gerekli belgeler alınarak kimlik doğrulaması yapılır",
+      "Sadece şube müdürü tanıyorsa hesap açılır",
+      "Telefonla teyit yeterlidir"
+    ],
+    "answer": "C",
+    "explanation": "Metin, hesap açılışında gerekli belge ve kimlik tespitinin zorunlu olduğunu vurgular.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 31,
+    "question": "İki veya daha fazla gerçek kişinin birlikte açtırdığı hesap türü aşağıdakilerden hangisidir?",
+    "options": [
+      "Rehinli hesap",
+      "Müşterek hesap",
+      "Teminat hesabı",
+      "İhbarlı hesap",
+      "Resmi hesap"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta iki veya daha fazla gerçek kişinin ortak hesap açtırabileceği belirtilir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 32,
+    "question": "Bankalar kendilerine gönderilen haciz ihbarnamelerine cevap vermezse aşağıdakilerden hangisi gündeme gelebilir?",
+    "options": [
+      "Hiçbir sonuç doğmaz",
+      "İlgili yasal sorumluluklarla karşılaşabilirler",
+      "Mevduat faiz oranı düşer",
+      "Hesap otomatik kapanır",
+      "Müşteri lehine faiz işler"
+    ],
+    "answer": "B",
+    "explanation": "Haciz ihbarnamelerine cevap verilmemesi bankaya hukuki sorumluluk doğurabilir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 33,
+    "question": "Mevduat hesaplarında faiz belirleme yetkisi kural olarak aşağıdakilerden hangisindedir?",
+    "options": [
+      "Müşteride",
+      "TCMB'de",
+      "Bankada",
+      "BDDK'da",
+      "Noterde"
+    ],
+    "answer": "C",
+    "explanation": "Kitapta mevduat hesaplarında faiz belirleme yetkisinin bankada olduğu belirtilir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 34,
+    "question": "Bankacılıkta valör aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Faiz oranının yıllık yüzdesini",
+      "İşlemin muhasebeleştiği tarihi",
+      "Paranın faiz yürütmeye veya kullanıma esas alındığı tarihi",
+      "Mevduatın vadesini",
+      "Tahsilat komisyonunu"
+    ],
+    "answer": "C",
+    "explanation": "Valör, işlemin faiz ve kullanım etkisinin başladığı tarihtir.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 35,
+    "question": "Mevduat faizinin hesaplanmasında aşağıdakilerden hangisi belirleyici unsurlardan biridir?",
+    "options": [
+      "Şube sayısı",
+      "Anapara, faiz oranı ve gün sayısı",
+      "Banka logosu",
+      "Müşteri mesleği",
+      "Telefon talimatı"
+    ],
+    "answer": "B",
+    "explanation": "Faiz hesaplaması temelde anapara, oran ve süreye dayanır.",
+    "topic": "Mevduat İşlemleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 36,
+    "question": "Havale ile virman arasındaki temel fark aşağıdakilerden hangisidir?",
+    "options": [
+      "Virman yalnızca farklı bankalar arasında yapılır",
+      "Havale aynı bankada veya bankalar arasında olabilirken virman aynı bankadaki hesaplar arasında yapılır",
+      "Virman sadece döviz içindir",
+      "Havale sadece şubede yapılır",
+      "Aralarında hiçbir fark yoktur"
+    ],
+    "answer": "B",
+    "explanation": "Virman aynı bankadaki hesaplar arası, havale ise daha geniş bir para aktarım işlemidir.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 37,
+    "question": "Telefon talimatıyla havale yapılmasının riskli görülmesinin başlıca nedeni aşağıdakilerden hangisidir?",
+    "options": [
+      "Faiz doğurmaması",
+      "Kimlik/doğrulama ve talimat güvenliği sorunları",
+      "Yalnızca döviz hesabına uygulanması",
+      "TCMB izni gerektirmesi",
+      "Şube kapanış saatine bağlı olması"
+    ],
+    "answer": "B",
+    "explanation": "Metin, telefon talimatında güvenlik ve doğrulama risklerinin yüksek olduğuna işaret eder.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 38,
+    "question": "Havaleyi gönderen banka müşterisinin ölmesi halinde işlemle ilgili doğru yaklaşım aşağıdakilerden hangisidir?",
+    "options": [
+      "İşlem daima geçersiz olur",
+      "Duruma göre miras ve talimat ilişkisi dikkate alınır; otomatik olarak aynı kalmaz",
+      "Banka hiçbir işlem yapmaz",
+      "Tüm havaleler otomatik iade edilir",
+      "Havale alıcısı hesabı kapatılır"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta ölüm halinde durumun değerlendirilmesi gerektiği, otomatik basit bir sonuç olmadığı belirtilir.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 39,
+    "question": "Kiralık kasa sözleşmesinin temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "Müşteriye kredi kullandırmak",
+      "Değerli eşya ve belgelerin güvenli muhafazasına ilişkin hizmet düzenini kurmak",
+      "Banka çeklerini saklamak",
+      "Mevduat faizini yükseltmek",
+      "Kasa üzerinden EFT yapmak"
+    ],
+    "answer": "B",
+    "explanation": "Kiralık kasa hizmeti, değerli eşya ve evrakın güvenli saklanması için sunulur.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 40,
+    "question": "Kiralık kasanın sahibi ölürse bankanın yaklaşımı aşağıdakilerden hangisi olmalıdır?",
+    "options": [
+      "Kasayı hemen boşaltmak",
+      "Miras ve yasal prosedürü gözeterek işlem yapmak",
+      "Eşyayı doğrudan en yakın akrabaya teslim etmek",
+      "Kasayı süresiz mühürsüz bırakmak",
+      "Kirayı artırmak"
+    ],
+    "answer": "B",
+    "explanation": "Metin, ölüm halinde bankanın ilgili bölümdeki eşyalar için hukuki prosedüre göre hareket etmesi gerektiğini belirtir.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 41,
+    "question": "Çekin hukuki niteliği bakımından aşağıdakilerden hangisi doğrudur?",
+    "options": [
+      "Bir kredi sözleşmesidir",
+      "Poliçe benzeri kıymetli evraktır",
+      "Vadeli mevduat türüdür",
+      "Teminat mektubudur",
+      "Sadece muhasebe fişidir"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta çekin kıymetli evrak niteliği vurgulanır.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 42,
+    "question": "Çekte taraflar arasında aşağıdakilerden hangisi yer almaz?",
+    "options": [
+      "Keşideci",
+      "Muhatap banka",
+      "Lehtar",
+      "Avalist zorunlu taraf",
+      "Hamil"
+    ],
+    "answer": "D",
+    "explanation": "Çekin temel tarafları keşideci, muhatap banka ve lehtar/hamildir; avalist zorunlu temel taraf değildir.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 43,
+    "question": "Aşağıdakilerden hangisi çekin zorunlu unsurlarından biri değildir?",
+    "options": [
+      "Çek kelimesi",
+      "Kayıtsız şartsız belirli bedelin ödenmesi emri",
+      "Muhatap banka adı",
+      "Kredi limiti tutarı",
+      "Düzenleme tarihi"
+    ],
+    "answer": "D",
+    "explanation": "Kredi limiti çekin zorunlu unsuru değildir.",
+    "topic": "Bankacılık Hizmetleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 44,
+    "question": "Bireysel bankacılığın genel bankacılık yapısı içindeki önemine ilişkin aşağıdakilerden hangisi doğrudur?",
+    "options": [
+      "Sektörde önemsizdir",
+      "Sadece üst gelir grubuna yöneliktir",
+      "Geniş müşteri kitlesi ve ürün çeşitliliği nedeniyle stratejik öneme sahiptir",
+      "Yalnızca yatırım bankalarının alanıdır",
+      "Sadece mevduat toplamaktan ibarettir"
+    ],
+    "answer": "C",
+    "explanation": "Metinde bireysel bankacılığın geniş müşteri tabanı ve ürün çeşitliliği nedeniyle önem taşıdığı anlatılır.",
+    "topic": "Bireysel Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 45,
+    "question": "Aşağıdakilerden hangisi bireysel bankacılık risklerinden biri olarak değerlendirilebilir?",
+    "options": [
+      "Kredi geri ödememe riski",
+      "Sadece noterlik riski",
+      "Yalnızca dış ticaret riski",
+      "Merkez bankası bağımsızlık riski",
+      "Tahvil ihraç riski"
+    ],
+    "answer": "A",
+    "explanation": "Bireysel kredilerde müşterinin geri ödememe ihtimali temel risklerden biridir.",
+    "topic": "Bireysel Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 46,
+    "question": "Bireysel kredi limiti belirlenirken aşağıdakilerden hangisi en çok dikkate alınır?",
+    "options": [
+      "Müşterinin medeni hali tek başına",
+      "Gelir durumu, ödeme gücü ve kredi değerliliği",
+      "Sosyal medya takipçi sayısı",
+      "Sadece hesap açılış tarihi",
+      "Müşterinin kullandığı telefon markası"
+    ],
+    "answer": "B",
+    "explanation": "Kredi limitinin temel belirleyicileri gelir, ödeme gücü ve kredi değerliliğidir.",
+    "topic": "Bireysel Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 47,
+    "question": "Bireysel krediler hangi durumda muaccel hale gelebilir?",
+    "options": [
+      "Müşteri kartını yenilediğinde",
+      "Sözleşmedeki ödeme yükümlülükleri ihlal edildiğinde",
+      "Bankanın şube açması halinde",
+      "Müşteri adres değiştirince otomatik olarak",
+      "Faiz oranı düşünce"
+    ],
+    "answer": "B",
+    "explanation": "Muacceliyet, borcun tamamının istenir hale gelmesidir ve sözleşme ihlalleriyle gündeme gelir.",
+    "topic": "Bireysel Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 48,
+    "question": "Kredi kartı sisteminin bankaya faydalarından biri aşağıdakilerden hangisidir?",
+    "options": [
+      "Hiç gelir yaratmaması",
+      "Komisyon ve faiz geliri sağlayabilmesi",
+      "Zorunlu karşılığı ortadan kaldırması",
+      "Sadece nakit taşıma yükü getirmesi",
+      "Denetim yükünü kaldırması"
+    ],
+    "answer": "B",
+    "explanation": "Kredi kartları bankalar için komisyon ve faiz gelirleri doğurabilir.",
+    "topic": "Kredi Kartları ve Elektronik Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 49,
+    "question": "Alternatif dağıtım kanallarına ihtiyaç duyulmasının temel nedeni aşağıdakilerden hangisidir?",
+    "options": [
+      "Şubeleri tamamen kapatmak",
+      "Müşteriye daha hızlı, kolay ve düşük maliyetli hizmet sunmak",
+      "Sadece döviz işlemlerini yasaklamak",
+      "Banka personelini azaltmak için tek yöntem olması",
+      "Yalnızca uluslararası işlemler için zorunlu olması"
+    ],
+    "answer": "B",
+    "explanation": "Metin, alternatif kanalların hız, erişim kolaylığı ve maliyet avantajı sağladığını vurgular.",
+    "topic": "Kredi Kartları ve Elektronik Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 50,
+    "question": "Forward işlemi taraflara hangi temel faydayı sağlar?",
+    "options": [
+      "Kur veya fiyat riskinden korunma imkânı",
+      "Anında mevduat sigortası",
+      "Kredi kartı limit artırımı",
+      "Zorunlu karşılık muafiyeti",
+      "Çek tazmin güvencesi"
+    ],
+    "answer": "A",
+    "explanation": "Forward sözleşmeleri gelecekteki fiyat/kur riskine karşı korunma amacı taşır.",
+    "topic": "Uluslararası Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 51,
+    "question": "Futures işlemlerinin forward işlemlerinden temel farklarından biri aşağıdakilerden hangisidir?",
+    "options": [
+      "Tamamen kişiye özel ve tezgâh üstü olması",
+      "Standartlaştırılmış ve organize piyasada işlem görmesi",
+      "Sadece bankalarca yapılabilmesi",
+      "Hiç teminat gerektirmemesi",
+      "Yalnızca spot işlemler için kullanılması"
+    ],
+    "answer": "B",
+    "explanation": "Futures işlemler organize piyasalarda standart sözleşmelerle yapılır.",
+    "topic": "Uluslararası Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 52,
+    "question": "Türev işlemlerin gelişmiş finansal piyasalar için önemli olmasının başlıca nedeni aşağıdakilerden hangisidir?",
+    "options": [
+      "Sadece vergi avantajı sağlaması",
+      "Risk yönetimi ve fiyat keşfine katkı sağlaması",
+      "Mevduatı zorunlu kılması",
+      "Denetimi ortadan kaldırması",
+      "Likiditeyi tamamen yok etmesi"
+    ],
+    "answer": "B",
+    "explanation": "Türev işlemler riskten korunma ve piyasa fiyatlamasına katkı sağlar.",
+    "topic": "Uluslararası Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 53,
+    "question": "Aşağıdakilerden hangisi uluslararası bankaların sunduğu hizmetlerden biridir?",
+    "options": [
+      "Fon transferi",
+      "Yalnızca belediye tahsili",
+      "Noter onayı verme",
+      "Ruhsat düzenleme",
+      "İcra takibi yapma"
+    ],
+    "answer": "A",
+    "explanation": "Uluslararası bankalar fon transferi, kaynak sağlama, kredi, döviz ve danışmanlık gibi hizmetler verir.",
+    "topic": "Uluslararası Bankacılık",
+    "difficulty": "zor"
+  },
+  {
+    "id": 54,
+    "question": "Bankacılıkta riskin birinci anlamı aşağıdakilerden hangisidir?",
+    "options": [
+      "Şube açma maliyeti",
+      "Kullandırılan kredilerin vadesinde ödenmemesi veya tahsil edilememesi ihtimali",
+      "Mevduat faizinin yükselmesi",
+      "Reklam giderlerinin artması",
+      "Personel devir hızı"
+    ],
+    "answer": "B",
+    "explanation": "Kitap riskin bir anlamını kredi geri dönmeme ihtimali olarak açıklar.",
+    "topic": "Risk Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 55,
+    "question": "Bankalarda risk yönetiminin en basit ifadesi aşağıdakilerden hangisidir?",
+    "options": [
+      "Sadece iç denetim yapılması",
+      "Olası kaybın istatistiksel olarak hesaplanması ve bu riski karşılayacak sermaye ile kredi verilmesi",
+      "Faiz oranını sabitlemek",
+      "Sadece teminat almak",
+      "Yalnızca şube açılışını onaylamak"
+    ],
+    "answer": "B",
+    "explanation": "Metinde risk yönetimi, olası kaybın hesaplanması ve yeterli sermaye varsa kredi verilmesi şeklinde tanımlanır.",
+    "topic": "Risk Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 56,
+    "question": "Türkiye'de bazı bankaların 1994 ve 2001 krizlerinde tasfiye edilmesinin risk yönetimi açısından temel sonucu ne olmuştur?",
+    "options": [
+      "Risk yönetimi bölümlerinin gereksiz görülmesi",
+      "Risk yönetimi bölümlerinin zorunlu ve önemli hale gelmesi",
+      "Mevduat toplanmasının yasaklanması",
+      "Merkez bankasının kapatılması",
+      "Kredi kartlarının kaldırılması"
+    ],
+    "answer": "B",
+    "explanation": "Kriz deneyimleri, etkin risk yönetimi sistemlerinin gerekliliğini ortaya koymuştur.",
+    "topic": "Risk Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 57,
+    "question": "Aşağıdakilerden hangisi bankaların karşılaştığı temel risklerden biri değildir?",
+    "options": [
+      "Kredi riski",
+      "Likidite riski",
+      "Faiz riski",
+      "Kur riski",
+      "Tarımsal verimlilik riski"
+    ],
+    "answer": "E",
+    "explanation": "Temel bankacılık riskleri arasında kredi, likidite, faiz, kur, operasyonel, piyasa vb. riskler bulunur.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 58,
+    "question": "Banka bilançosunun aktif tarafındaki en önemli kalem kitapta hangisi olarak belirtilir?",
+    "options": [
+      "Mevduatlar",
+      "Öz kaynaklar",
+      "Verilen krediler",
+      "Karşılık giderleri",
+      "Tahsil edilemeyen çekler"
+    ],
+    "answer": "C",
+    "explanation": "Aktif tarafın en önemli kalemi müşterilere verilen kredilerdir.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 59,
+    "question": "Banka bilançosunun pasif tarafındaki en önemli kaynak kalemi aşağıdakilerden hangisidir?",
+    "options": [
+      "Verilen krediler",
+      "Bankanın taşınmazları",
+      "Toplanan mevduatlar",
+      "Kar payı alacakları",
+      "Muhtelif giderler"
+    ],
+    "answer": "C",
+    "explanation": "Toplanan mevduatlar bankanın müşterilerine olan borcunu gösterir ve pasifte yer alır.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 60,
+    "question": "Aktif yönetimi aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Kaynakları minimum risk ve maksimum getiri sağlayacak şekilde yatırım alternatifleri arasında değerlendirmek",
+      "En düşük maliyetle fon toplamak",
+      "Sadece özkaynak artırımı yapmak",
+      "Yalnızca şube açılış planlamak",
+      "Denetim raporu yazmak"
+    ],
+    "answer": "A",
+    "explanation": "Aktif yönetimi, varlıkların en uygun getiri-risk dengesiyle yönetilmesidir.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 61,
+    "question": "Pasif yönetimi aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Kredilerin takibe düşmesini sağlamak",
+      "En düşük maliyetle ve uygun şekilde kaynak yaratmak",
+      "Yalnızca özkaynak satmak",
+      "Kur riskini sıfırlamak",
+      "Çek hesabı açmak"
+    ],
+    "answer": "B",
+    "explanation": "Pasif yönetimi, bankanın uygun maliyetli kaynak bulmasını sağlamaya yöneliktir.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 62,
+    "question": "Aktif pasif yönetiminin temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "Sadece bilanço küçültmek",
+      "Karı maksimize ederken riskleri de gözeterek bilançonun her iki tarafını etkin yönetmek",
+      "Yalnızca mevduat artırmak",
+      "Merkez bankası kararlarını uygulamak",
+      "Denetimi bağımsız şirkete bırakmak"
+    ],
+    "answer": "B",
+    "explanation": "Aktif pasif yönetimi, kar maksimizasyonu ile risk yönetimini birlikte ele alır.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 63,
+    "question": "Likidite riski en genel anlamıyla aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Faizlerin düşmesini",
+      "Bankanın yükümlülüklerini zamanında karşılayacak nakde erişememesi riskini",
+      "Döviz kurlarının yükselmesini",
+      "Kredi kartı limitinin aşılmasını",
+      "Denetim raporunun gecikmesini"
+    ],
+    "answer": "B",
+    "explanation": "Likidite riski, ödeme gücünün zamanında yerine getirilememesi tehlikesidir.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 64,
+    "question": "Faiz riski aşağıdakilerden hangisi nedeniyle ortaya çıkar?",
+    "options": [
+      "Personel sayısının artması",
+      "Faiz oranlarındaki değişimlerin banka bilançosu ve gelirleri üzerinde olumsuz etki yaratması",
+      "Sadece döviz alım satımı",
+      "Yalnızca çek tahsilatı",
+      "Şube kapanış saatleri"
+    ],
+    "answer": "B",
+    "explanation": "Faiz riski, faiz oranı değişimlerinin varlık ve yükümlülükler üzerindeki etkisinden doğar.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 65,
+    "question": "Kur riski aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Yabancı para pozisyonundaki kur değişimlerinden doğan risk",
+      "Sadece altın fiyatı riski",
+      "Faizsiz finansman riski",
+      "Mevduat sigortası riski",
+      "Çek hesabı açılış riski"
+    ],
+    "answer": "A",
+    "explanation": "Kur riski, döviz cinsi varlık ve yükümlülüklerin kur değişiminden etkilenmesidir.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 66,
+    "question": "Operasyonel risk en doğru biçimde aşağıdakilerden hangisiyle açıklanır?",
+    "options": [
+      "Sistem, süreç, insan veya dış olaylardan kaynaklanan zarar ihtimali",
+      "Sadece kredi geri dönmeme riski",
+      "Yalnızca döviz riski",
+      "Mevduat faizinin yükselmesi",
+      "Bütçe açığı"
+    ],
+    "answer": "A",
+    "explanation": "Operasyonel risk süreç, sistem, insan hatası ve dış olaylardan doğan riskleri kapsar.",
+    "topic": "Aktif Pasif Yönetimi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 67,
+    "question": "Bankalarda denetim aşağıdakilerden hangisini içerir?",
+    "options": [
+      "Yalnızca şube kârlılığını",
+      "Verimlilik, kârlılık, hedef gerçekleşmesi ve operasyonel hata tespitini",
+      "Sadece reklam performansını",
+      "Sadece müşteri memnuniyetini",
+      "Yalnızca kredi faiz oranlarını"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta denetim; verimlilik, performans ve operasyonel süreç hatalarının tespitini kapsar.",
+    "topic": "Denetim",
+    "difficulty": "zor"
+  },
+  {
+    "id": 68,
+    "question": "Bankalarda denetim türleri genel olarak nasıl ayrılır?",
+    "options": [
+      "Şube ve genel müdürlük denetimi",
+      "İç denetim ve dış denetim",
+      "Günlük ve aylık denetim",
+      "Resmi ve gayriresmi denetim",
+      "Mali ve ticari denetim"
+    ],
+    "answer": "B",
+    "explanation": "Denetim, bankanın kendi elemanlarıyla yaptığı iç denetim ve dış kurumlarca yapılan dış denetim olarak ayrılır.",
+    "topic": "Denetim",
+    "difficulty": "zor"
+  },
+  {
+    "id": 69,
+    "question": "Aşağıdakilerden hangisi bankaları denetleyen kurumlardan biri değildir?",
+    "options": [
+      "BDDK",
+      "TCMB",
+      "Hazine ve Maliye Bakanlığı",
+      "Bağımsız denetim şirketleri",
+      "Tapu müdürlüğü"
+    ],
+    "answer": "E",
+    "explanation": "Kitapta denetim kurumları arasında tapu müdürlüğü sayılmamıştır.",
+    "topic": "Denetim",
+    "difficulty": "zor"
+  },
+  {
+    "id": 70,
+    "question": "BDDK'ya ihtiyaç duyulmasının temel nedeni aşağıdakilerden hangisidir?",
+    "options": [
+      "Parçalı denetim yapısını kaldırıp bağımsız ve etkin bir düzenleyici-denetleyici yapı kurmak",
+      "Sadece mevduat faizini belirlemek",
+      "Merkez bankasını kapatmak",
+      "Kredi kartı limitlerini bireysel olarak belirlemek",
+      "Uluslararası bankaları yasaklamak"
+    ],
+    "answer": "A",
+    "explanation": "1999 sonrasında bankacılık denetimindeki parçalı yapının kaldırılması ve bağımsız bir kurum oluşturulması amaçlanmıştır.",
+    "topic": "Denetim",
+    "difficulty": "zor"
+  },
+  {
+    "id": 71,
+    "question": "BDDK'nın statüsü ile ilgili aşağıdaki ifadelerden hangisi doğrudur?",
+    "options": [
+      "Özel hukuk şirketidir",
+      "İdari ve mali özerkliğe sahip kamu kurumudur",
+      "TCMB'nin bir dairesidir",
+      "Yalnızca Ankara'da faaliyet gösterir",
+      "Sadece mevduat sigortası yapar"
+    ],
+    "answer": "B",
+    "explanation": "Metinde BDDK'nın idari ve mali özerkliğe sahip kamu kurumu olduğu belirtilir.",
+    "topic": "Denetim",
+    "difficulty": "zor"
+  },
+  {
+    "id": 72,
+    "question": "5411 sayılı Bankacılık Kanunu'nun 48. maddesine göre aşağıdakilerden hangisi kredi sayılmaz?",
+    "options": [
+      "Nakdi krediler",
+      "Teminat mektupları",
+      "Aval ve kefaletler",
+      "Vadeli işlem sözleşmeleri nedeniyle üstlenilen riskler",
+      "Sadece bankanın kira gideri"
+    ],
+    "answer": "E",
+    "explanation": "Kanunda çok geniş bir kredi tanımı yapılmış olup kira gideri kredi kapsamında değildir.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 73,
+    "question": "Kredinin unsurları arasında aşağıdakilerden hangisi yer almaz?",
+    "options": [
+      "Vade",
+      "Güven",
+      "Risk",
+      "Gelir",
+      "Marka değeri"
+    ],
+    "answer": "E",
+    "explanation": "Kitapta kredinin dört unsuru vade, güven, risk ve gelir olarak sayılır.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 74,
+    "question": "Kredide güven unsurunun önemi aşağıdakilerden hangisiyle açıklanır?",
+    "options": [
+      "Sürenin kısa olması",
+      "Kredi verilecek kişinin banka nezdindeki saygınlığı ve güvenilirliği",
+      "Faizin sabit olması",
+      "Teminatın altın olması",
+      "Müşterinin aynı şehirde oturması"
+    ],
+    "answer": "B",
+    "explanation": "Metinde güven unsurunun kredinin en önemli unsurlarından biri olduğu vurgulanır.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 75,
+    "question": "Bankaların kredi verirken gelir elde ettiği kalemler arasında aşağıdakilerden hangisi sayılabilir?",
+    "options": [
+      "Faiz, komisyon ve masraf",
+      "Sadece bağış",
+      "Yalnızca vergi iadesi",
+      "Hibe ve bağışlar",
+      "Sadece reklam geliri"
+    ],
+    "answer": "A",
+    "explanation": "Bankalar kredi işlemlerinden faiz, komisyon ve masraf adı altında gelir elde eder.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 76,
+    "question": "Kredi sınırlamalarının temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "Bankanın bütün kredileri tek müşteriye vermesini sağlamak",
+      "Risk yoğunlaşmasını önlemek ve bankanın güvenliğini korumak",
+      "Sadece kamu bankalarını büyütmek",
+      "Faizi ortadan kaldırmak",
+      "Kredi kartlarını kapatmak"
+    ],
+    "answer": "B",
+    "explanation": "Kredi sınırlamaları bankanın aşırı risk üstlenmesini ve yoğunlaşmayı önlemeye yöneliktir.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 77,
+    "question": "Bankaların müşterilerden isteyebileceği teminatlar arasında aşağıdakilerden hangisi yer alır?",
+    "options": [
+      "Nakit, ipotek, mal rehni, üçüncü kişi kefaleti",
+      "Sadece noter mühürü",
+      "Yalnızca maaş bordrosu",
+      "Sadece taşınır rehni",
+      "Hiçbiri"
+    ],
+    "answer": "A",
+    "explanation": "Metinde teminat türleri örnek olarak nakit, ipotek, mal rehni ve kefalet şeklinde verilir.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 78,
+    "question": "Dain ve mürtehin sıfatıyla banka adına sigorta yapılmasının temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "Müşteriye indirim sağlamak",
+      "Teminata konu varlığın zarar görmesi halinde bankanın hakkını korumak",
+      "Vergi avantajı elde etmek",
+      "Poliçe primini azaltmak",
+      "Şubeye müşteri çekmek"
+    ],
+    "answer": "B",
+    "explanation": "Bu uygulama, bankanın teminat üzerindeki alacağını sigorta bakımından korur.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 79,
+    "question": "Kredi talebi incelenirken yapılan istihbarat çalışması aşağıdakilerden hangisini kapsar?",
+    "options": [
+      "Yalnızca Google araması",
+      "Firmanın mali yapısı, ortakları, piyasadaki itibarı ve bankalarla ilişkileri hakkında araştırma",
+      "Sadece tapu kaydı",
+      "Sadece vergi levhası fotokopisi",
+      "Sadece personel sayısı"
+    ],
+    "answer": "B",
+    "explanation": "İstihbarat, firmanın mali ve ticari itibarı ile bankacılık ilişkilerinin araştırılmasıdır.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 80,
+    "question": "Mali tahlil aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Sadece kasadaki para sayımını",
+      "Firmanın mali verileri üzerinden yatay, dikey, yüzde ve oran analizleri yapılmasını",
+      "Müşteri ziyaret notlarının tutulmasını",
+      "Yalnızca kefilin araştırılmasını",
+      "Kredi kartı ekstrenin incelenmesini"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta mali tahlilin firma finansallarına dayalı analitik inceleme olduğu belirtilir.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 81,
+    "question": "Kredilerin izlenmesi aşamasında aşağıdakilerden hangisi yapılması gereken faaliyetlerden biridir?",
+    "options": [
+      "Krediyi verdikten sonra müşteriyi tamamen serbest bırakmak",
+      "Memzuç takibi, faiz ödeme durumu, karşılıksız çek ve mali verileri izlemek",
+      "Sadece reklam kampanyası yapmak",
+      "Yalnızca yeni kredi teklif etmek",
+      "Hiçbir belge almamak"
+    ],
+    "answer": "B",
+    "explanation": "Metin, kredi sonrası izlemenin aktif olarak sürdürülmesi gerektiğini vurgular.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 82,
+    "question": "Münakale aşağıdakilerden hangisidir?",
+    "options": [
+      "Kredi faizinin silinmesi",
+      "Onaylanmış bir krediden kullanılmayan kısmın başka bir krediye aktarılması",
+      "Takipteki kredinin kapatılması",
+      "Teminat mektubunun tazmini",
+      "Mevduatın virman edilmesi"
+    ],
+    "answer": "B",
+    "explanation": "Münakale, kredi limitlerinin kullanılmayan kısmının başka krediye aktarılmasıdır.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 83,
+    "question": "Sorunlu kredi kavramı aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Yükümlülüklerin geri ödenmesinde sorun bulunan kredi",
+      "Düşük faizli kredi",
+      "Sadece döviz kredisi",
+      "Yalnızca ipotekli kredi",
+      "Banka personeline verilen kredi"
+    ],
+    "answer": "A",
+    "explanation": "Sorunlu kredi, geri dönüşünde problem yaşanan veya yaşanması muhtemel krediyi ifade eder.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 84,
+    "question": "Temerrüt, kredi ilişkisinde aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Bankanın faiz indirmesi",
+      "Borçlunun yükümlülüğünü zamanında yerine getirmemesi",
+      "Teminatın artırılması",
+      "Müşterinin şube değiştirmesi",
+      "Kredinin erken kapatılması"
+    ],
+    "answer": "B",
+    "explanation": "Temerrüt, borcun vadesinde ödenmemesi halidir.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 85,
+    "question": "Aşağıdakilerden hangisi nakit kredi türlerinden biri olabilir?",
+    "options": [
+      "İşletme kredisi",
+      "Teminat mektubu",
+      "Aval",
+      "Kontrgaranti",
+      "Referans mektubu"
+    ],
+    "answer": "A",
+    "explanation": "Teminat mektubu vb. gayrinakdi; işletme kredisi ise nakdi kredi türüdür.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 86,
+    "question": "Aşağıdakilerden hangisi gayrinakdi kredi örneğidir?",
+    "options": [
+      "İhtiyaç kredisi",
+      "Taksitli ticari kredi",
+      "Teminat mektubu",
+      "Konut kredisi",
+      "Taşıt kredisi"
+    ],
+    "answer": "C",
+    "explanation": "Teminat mektubu gayrinakdi kredi kapsamındadır.",
+    "topic": "Temel Kredi Bilgisi",
+    "difficulty": "zor"
+  },
+  {
+    "id": 87,
+    "question": "Teminat mektuplarının limit içi sayılabilmesi için aşağıdaki koşullardan hangilerinin birlikte bulunması gerekir?",
+    "options": [
+      "Yabancı para cinsinden olması ve vadeli olması",
+      "2886 sayılı Devlet İhale Kanunu kapsamında olması ve muhatabın kamu kurum/kuruluşu olması",
+      "Özel sektör lehine düzenlenmesi ve süresiz olması",
+      "Yalnızca avans niteliğinde olması",
+      "Karşılığında ipotek bulunması"
+    ],
+    "answer": "B",
+    "explanation": "Metinde limit içi sayılabilmesi için iki koşul birlikte aranır: 2886 kapsamı ve kamu muhatap.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 88,
+    "question": "Limit içi teminat mektuplarının limiti kim tarafından belirlenir?",
+    "options": [
+      "TCMB",
+      "BDDK",
+      "Müşteri",
+      "Noter",
+      "Türkiye Bankalar Birliği"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta limit içi mektupların limitinin BDDK tarafından bankalara bildirildiği belirtilir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 89,
+    "question": "Aşağıdakilerden hangisi limit dışı teminat mektubunu ifade eder?",
+    "options": [
+      "Kamu kurumları lehine 2886 kapsamındaki işler için verilen mektup",
+      "Kamu kurum ve kuruluşları dışındaki gerçek/tüzel kişiler lehine veya 2886 kapsamı dışındaki işler için verilen mektup",
+      "Yalnızca yabancı para cinsinden verilen mektup",
+      "Sadece geçici teminat mektubu",
+      "Sadece avans mektubu"
+    ],
+    "answer": "B",
+    "explanation": "Limit dışı mektuplar, kamu dışı veya 2886 kapsamı dışı işler için verilen mektuplardır.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 90,
+    "question": "Düzenlenme şekilleri bakımından teminat mektupları aşağıdakilerden hangisinde doğru verilmiştir?",
+    "options": [
+      "Geçici, kesin, avans, serbest konulu",
+      "Vadeli, vadesiz, dövizli, TL",
+      "Nakit, gayrinakit, karma, rehinli",
+      "İç, dış, kamu, özel",
+      "Açık, kapalı, tam, eksik"
+    ],
+    "answer": "A",
+    "explanation": "Kitapta şekil bakımından dört tür sayılır: geçici, kesin, avans, serbest konulu.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 91,
+    "question": "Geçici teminat mektubunun temel amacı aşağıdakilerden hangisidir?",
+    "options": [
+      "İhalenin alınması halinde sözleşme imzalanmaması veya kesin teminat verilmemesinden doğacak zararları güvence altına almak",
+      "Konut alımını finanse etmek",
+      "Sadece döviz riskini azaltmak",
+      "Mevduat toplamak",
+      "Kart borcunu taksitlendirmek"
+    ],
+    "answer": "A",
+    "explanation": "Geçici teminat mektubu, ihale öncesi alınan ve işin gereklerinin yerine getirilmesini güvence altına alan teminattır.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 92,
+    "question": "Devlet İhale Yasasına göre geçici teminat mektubu bedeli genel olarak neye göre belirlenir?",
+    "options": [
+      "İşin tahmin edilen bedelinin %3'ü",
+      "Teklif bedelinin %10'u",
+      "Banka şubesinin takdirine göre",
+      "İhale komisyonunun keyfi kararına göre",
+      "Yalnızca döviz kuru üzerinden"
+    ],
+    "answer": "A",
+    "explanation": "Metinde Devlet İhale Yasasına göre tahmin edilen bedelin %3'ü oranında geçici teminat alındığı belirtilir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 93,
+    "question": "Bankalar geçici teminat mektubu verirken aşağıdakilerden hangisine dikkat etmelidir?",
+    "options": [
+      "Firmanın ihale yasağı olup olmadığına ve işi üstlenme kapasitesine",
+      "Yalnızca firmanın logosuna",
+      "Sadece şube yakınlığına",
+      "Müşterinin yaşına",
+      "Reklam bütçesine"
+    ],
+    "answer": "A",
+    "explanation": "İhale yasağı, kapasite, tecrübe ve kesin teminat verebilecek kredi değerliliği önemlidir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 94,
+    "question": "Kesin teminat mektubu hangi durumla bağlantılı olarak verilir?",
+    "options": [
+      "İhalenin şartlara uygun olarak yerine getirilmesi taahhüdüyle",
+      "Sadece hesap açılışı için",
+      "Çek karnesi verilmesi için",
+      "Kredi kartı yenilemesinde",
+      "Vadeli mevduat bozumunda"
+    ],
+    "answer": "A",
+    "explanation": "Kesin teminat mektubu, alınan ihalenin şartlara uygun ifasının güvence altına alınması için verilir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 95,
+    "question": "Aşağıdakilerden hangisi teminat mektubu düzenlenirken dikkat edilmesi gereken hususlardan biri değildir?",
+    "options": [
+      "Onaylanan limitin aşılmaması",
+      "Talebin yazılı alınması",
+      "Mektup metninde konunun açık belirtilmesi",
+      "Vekilin yetkisinin kontrolü",
+      "Müşteriye teminat mektubunun sözlü beyanla verilmesi"
+    ],
+    "answer": "E",
+    "explanation": "Teminat mektubu düzenlenmesinde yazılı talep ve yetki kontrolü gerekir; sözlü beyan yeterli değildir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 96,
+    "question": "Yabancı para cinsinden düzenlenen teminat mektuplarında özellikle hangi risk dikkate alınmalıdır?",
+    "options": [
+      "Faiz geliri riski",
+      "Kur riski",
+      "Turizm riski",
+      "Enflasyon beklentisi riski",
+      "Marka riski"
+    ],
+    "answer": "B",
+    "explanation": "Metinde yabancı para mektuplarda kur riskinin gözetilmesi gerektiği belirtilir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 97,
+    "question": "Bankalar teminat mektuplarından nasıl gelir elde eder?",
+    "options": [
+      "Sadece faiz geliriyle",
+      "Komisyon alarak",
+      "Vergi iadesiyle",
+      "Sadece reeskontla",
+      "Kâr payı dağıtarak"
+    ],
+    "answer": "B",
+    "explanation": "Teminat mektuplarından bankalar komisyon tahsil eder.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 98,
+    "question": "Muhatap hangi durumda teminat mektubunun tazminini talep edebilir?",
+    "options": [
+      "Lehtarın garanti edilen yükümlülüğü yerine getirmediğini yazılı olarak bildirdiğinde",
+      "Sadece telefonla istediğinde",
+      "Bankanın kârı azaldığında",
+      "Müşteri yeni hesap açtığında",
+      "İhale süresi başlamadan önce her zaman"
+    ],
+    "answer": "A",
+    "explanation": "Yazılı talepte, lehtarın garanti edilen yükümlülüğünü yerine getirmediğinin açıkça belirtilmesi gerekir.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 99,
+    "question": "Aşağıdakilerden hangisi referans mektubu ile teminat mektubu arasındaki temel farkı en iyi açıklar?",
+    "options": [
+      "İkisi tamamen aynıdır",
+      "Referans mektubu ödeme taahhüdü içermez; teminat mektubu belirli koşullarda ödeme taahhüdü içerir",
+      "Teminat mektubu sadece sözlü verilir",
+      "Referans mektubu her zaman limit içidir",
+      "Teminat mektubu yalnızca gerçek kişilere verilir"
+    ],
+    "answer": "B",
+    "explanation": "Referans mektubu bilgi/itibar bildirimi niteliğindedir; teminat mektubu ise garanti ve ödeme taahhüdü barındırır.",
+    "topic": "Teminat Mektupları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 100,
+    "question": "Aşağıdakilerden hangisi kitapta geçen bankacılık denetimi ve risk yönetimi yaklaşımıyla en uyumlu ifadedir?",
+    "options": [
+      "Kredi verildikten sonra izleme gereksizdir",
+      "Kâr maksimizasyonu uğruna riskler göz ardı edilmelidir",
+      "Banka hem risk yönetimini hem de aktif-pasif dengesini birlikte ele alarak güvenli ve verimli çalışmalıdır",
+      "Teminat varsa analiz yapmaya gerek yoktur",
+      "Denetim yalnızca kriz sonrası yapılmalıdır"
+    ],
+    "answer": "C",
+    "explanation": "Kitabın genel yaklaşımı, risk yönetimi, denetim ve aktif-pasif yönetiminin birlikte ele alınması gerektiğidir.",
+    "topic": "Genel Tekrar",
+    "difficulty": "zor"
   }
 ]
