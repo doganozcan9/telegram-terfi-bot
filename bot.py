@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import os
@@ -869,6 +870,9 @@ def main() -> None:
         raise ValueError("WEBHOOK_URL tanımlı değil.")
 
     init_db()
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
 
     application = Application.builder().token(TOKEN).build()
 
