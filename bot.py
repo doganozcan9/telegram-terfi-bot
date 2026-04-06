@@ -3,9 +3,6 @@ import logging
 import os
 import random
 import sqlite3
-import threading
-import time
-from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -36,7 +33,6 @@ TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 WEBHOOK_URL = os.getenv("WEBHOOK_URL", "")
 PORT = int(os.getenv("PORT", "10000"))
 
-DAILY_QUIZ_HOUR = int(os.getenv("DAILY_QUIZ_HOUR", "9"))
 DAILY_QUIZ_COUNT = 10
 
 
@@ -55,8 +51,7 @@ def init_db() -> None:
             user_id INTEGER PRIMARY KEY,
             username TEXT,
             full_name TEXT,
-            daily_quiz_enabled INTEGER DEFAULT 0,
-            last_daily_sent_date TEXT
+            daily_quiz_enabled INTEGER DEFAULT 0
         )
     """)
 
@@ -87,8 +82,8 @@ def ensure_user(user_id: int, username: str | None, full_name: str | None) -> No
     cur = conn.cursor()
 
     cur.execute("""
-        INSERT INTO users (user_id, username, full_name, daily_quiz_enabled, last_daily_sent_date)
-        VALUES (?, ?, ?, 0, NULL)
+        INSERT INTO users (user_id, username, full_name, daily_quiz_enabled)
+        VALUES (?, ?, ?, 0)
         ON CONFLICT(user_id) DO UPDATE SET
             username=excluded.username,
             full_name=excluded.full_name
@@ -206,32 +201,6 @@ def get_daily_quiz_enabled(user_id: int) -> bool:
     row = cur.fetchone()
     conn.close()
     return bool(row["daily_quiz_enabled"]) if row else False
-
-
-def get_daily_quiz_users_to_send(today_str: str) -> List[int]:
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        SELECT user_id
-        FROM users
-        WHERE daily_quiz_enabled = 1
-          AND (last_daily_sent_date IS NULL OR last_daily_sent_date <> ?)
-    """, (today_str,))
-    rows = cur.fetchall()
-    conn.close()
-    return [row["user_id"] for row in rows]
-
-
-def mark_daily_sent(user_id: int, today_str: str) -> None:
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        UPDATE users
-        SET last_daily_sent_date = ?
-        WHERE user_id = ?
-    """, (today_str, user_id))
-    conn.commit()
-    conn.close()
 
 
 def load_questions() -> List[Dict[str, Any]]:
@@ -362,7 +331,6 @@ def question_text(q: Dict[str, Any], asked_no: int | None = None, total_count: i
     topic_line = f"\n├ Konu: `{q['topic']}`"
     difficulty_emoji = "🟢" if q["difficulty"] == "kolay" else "🔴" if q["difficulty"] == "zor" else "🟡"
     difficulty_line = f"\n└ Zorluk: {difficulty_emoji} *{q['difficulty'].capitalize()}*"
-
     question_block = f"\n\n*{q['question']}*"
 
     return header + progress + topic_line + difficulty_line + question_block
@@ -542,10 +510,7 @@ async def daily_on_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
         update.effective_user.full_name,
     )
     set_daily_quiz_enabled(update.effective_user.id, True)
-    await update.message.reply_text(
-        f"🌞 Günlük deneme açıldı.\nHer gün saat *{DAILY_QUIZ_HOUR:02d}:00* civarında hatırlatma mesajı alacaksın.",
-        parse_mode=ParseMode.MARKDOWN,
-    )
+    await update.message.reply_text("🌞 Günlük deneme açıldı.")
 
 
 async def daily_off_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -603,7 +568,6 @@ async def send_next_question(update: Update, context: ContextTypes.DEFAULT_TYPE)
     q = state["queue"].pop(0)
     state["current_question"] = q
     state["asked"] += 1
-
     total_count = state["asked"] + len(state["queue"])
 
     target = update.effective_message if update.effective_message else update.callback_query.message
@@ -682,10 +646,7 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     if action == "daily_on":
         set_daily_quiz_enabled(update.effective_user.id, True)
-        await query.message.reply_text(
-            f"🌞 Günlük deneme açıldı.\nHer gün saat *{DAILY_QUIZ_HOUR:02d}:00* civarında hatırlatma mesajı alacaksın.",
-            parse_mode=ParseMode.MARKDOWN,
-        )
+        await query.message.reply_text("🌞 Günlük deneme açıldı.")
         return
 
     if action == "daily_off":
@@ -901,38 +862,6 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     await send_next_question(update, context)
 
 
-def run_daily_scheduler(application: Application) -> None:
-    while True:
-        try:
-            now = datetime.now()
-            today_str = now.strftime("%Y-%m-%d")
-
-            if now.hour == DAILY_QUIZ_HOUR and now.minute == 0:
-                user_ids = get_daily_quiz_users_to_send(today_str)
-
-                for user_id in user_ids:
-                    try:
-                        application.bot.send_message(
-                            chat_id=user_id,
-                            text=(
-                                "🌞 *Günlük denemen hazır.*\n\n"
-                                "Başlatmak için /daily_now yazabilir veya menüden *Bugünün Denemesi*'ne basabilirsin."
-                            ),
-                            parse_mode=ParseMode.MARKDOWN,
-                        )
-                        mark_daily_sent(user_id, today_str)
-                    except Exception as e:
-                        logger.warning(f"Günlük deneme mesajı gönderilemedi. user_id={user_id}, hata={e}")
-
-                time.sleep(60)
-
-            time.sleep(20)
-
-        except Exception as e:
-            logger.warning(f"Günlük scheduler hatası: {e}")
-            time.sleep(30)
-
-
 def main() -> None:
     if not TOKEN:
         raise ValueError("TELEGRAM_BOT_TOKEN tanımlı değil.")
@@ -959,13 +888,6 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
 
     logger.warning("Bot webhook modunda başlatılıyor...")
-
-    scheduler_thread = threading.Thread(
-        target=run_daily_scheduler,
-        args=(application,),
-        daemon=True
-    )
-    scheduler_thread.start()
 
     application.run_webhook(
         listen="0.0.0.0",
