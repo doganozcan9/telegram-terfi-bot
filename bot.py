@@ -1,4 +1,3 @@
-import asyncio
 import json
 import logging
 import os
@@ -7,9 +6,8 @@ import sqlite3
 import threading
 import time
 from datetime import datetime
-from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from dotenv import load_dotenv
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -35,27 +33,11 @@ QUESTIONS_FILE = BASE_DIR / "questions.json"
 DB_FILE = BASE_DIR / "quiz_bot.db"
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
+WEBHOOK_URL = os.getenv("WEBHOOK_URL", "")
+PORT = int(os.getenv("PORT", "10000"))
+
 DAILY_QUIZ_HOUR = int(os.getenv("DAILY_QUIZ_HOUR", "9"))
 DAILY_QUIZ_COUNT = 10
-
-APP: Optional[Application] = None
-BOT_LOOP: Optional[asyncio.AbstractEventLoop] = None
-
-
-def run_web_server() -> None:
-    class Handler(BaseHTTPRequestHandler):
-        def do_GET(self):
-            self.send_response(200)
-            self.send_header("Content-type", "text/plain; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(b"Bot is running")
-
-        def log_message(self, format, *args):
-            return
-
-    port = int(os.environ.get("PORT", 10000))
-    server = HTTPServer(("0.0.0.0", port), Handler)
-    server.serve_forever()
 
 
 def get_db_connection() -> sqlite3.Connection:
@@ -469,6 +451,11 @@ def stats_text_for_user(user_id: int) -> str:
     )
 
 
+async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if update.message:
+        await update.message.reply_text("🏓 Bot aktif ve çalışıyor!")
+
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     state = get_user_state(context)
     reset_quiz_state(state)
@@ -504,7 +491,8 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
             "/stop - testi bitir\n"
             "/daily_on - günlük denemeyi aç\n"
             "/daily_off - günlük denemeyi kapat\n"
-            "/daily_now - bugünün denemesini başlat"
+            "/daily_now - bugünün denemesini başlat\n"
+            "/ping - bot kontrol"
         )
 
 
@@ -913,15 +901,9 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     await send_next_question(update, context)
 
 
-def run_daily_scheduler() -> None:
-    global APP, BOT_LOOP
-
+def run_daily_scheduler(application: Application) -> None:
     while True:
         try:
-            if APP is None or BOT_LOOP is None:
-                time.sleep(5)
-                continue
-
             now = datetime.now()
             today_str = now.strftime("%Y-%m-%d")
 
@@ -930,18 +912,14 @@ def run_daily_scheduler() -> None:
 
                 for user_id in user_ids:
                     try:
-                        future = asyncio.run_coroutine_threadsafe(
-                            APP.bot.send_message(
-                                chat_id=user_id,
-                                text=(
-                                    "🌞 *Günlük denemen hazır.*\n\n"
-                                    "Başlatmak için /daily_now yazabilir veya menüden *Bugünün Denemesi*'ne basabilirsin."
-                                ),
-                                parse_mode=ParseMode.MARKDOWN,
+                        application.bot.send_message(
+                            chat_id=user_id,
+                            text=(
+                                "🌞 *Günlük denemen hazır.*\n\n"
+                                "Başlatmak için /daily_now yazabilir veya menüden *Bugünün Denemesi*'ne basabilirsin."
                             ),
-                            BOT_LOOP,
+                            parse_mode=ParseMode.MARKDOWN,
                         )
-                        future.result(timeout=20)
                         mark_daily_sent(user_id, today_str)
                     except Exception as e:
                         logger.warning(f"Günlük deneme mesajı gönderilemedi. user_id={user_id}, hata={e}")
@@ -956,19 +934,14 @@ def run_daily_scheduler() -> None:
 
 
 def main() -> None:
-    global APP, BOT_LOOP
-
     if not TOKEN:
         raise ValueError("TELEGRAM_BOT_TOKEN tanımlı değil.")
+    if not WEBHOOK_URL:
+        raise ValueError("WEBHOOK_URL tanımlı değil.")
 
     init_db()
 
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    BOT_LOOP = loop
-
     application = Application.builder().token(TOKEN).build()
-    APP = application
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("help", help_command))
@@ -977,6 +950,7 @@ def main() -> None:
     application.add_handler(CommandHandler("daily_on", daily_on_command))
     application.add_handler(CommandHandler("daily_off", daily_off_command))
     application.add_handler(CommandHandler("daily_now", daily_now_command))
+    application.add_handler(CommandHandler("ping", ping))
 
     application.add_handler(CallbackQueryHandler(handle_menu_click, pattern=r"^menu\|"))
     application.add_handler(CallbackQueryHandler(handle_topic_click, pattern=r"^topic\|"))
@@ -984,15 +958,23 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_count_click, pattern=r"^count_"))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
 
-    logger.warning("Bot başlatılıyor...")
+    logger.warning("Bot webhook modunda başlatılıyor...")
 
-    web_thread = threading.Thread(target=run_web_server, daemon=True)
-    web_thread.start()
-
-    scheduler_thread = threading.Thread(target=run_daily_scheduler, daemon=True)
+    scheduler_thread = threading.Thread(
+        target=run_daily_scheduler,
+        args=(application,),
+        daemon=True
+    )
     scheduler_thread.start()
 
-    application.run_polling(stop_signals=None)
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TOKEN,
+        webhook_url=f"{WEBHOOK_URL}/{TOKEN}",
+        secret_token="terfi-bot-secret-123",
+        stop_signals=None,
+    )
 
 
 if __name__ == "__main__":
