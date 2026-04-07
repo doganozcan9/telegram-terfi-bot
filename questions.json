@@ -1498,5 +1498,1405 @@
     "explanation": "Kitabın genel yaklaşımı, risk yönetimi, denetim ve aktif-pasif yönetiminin birlikte ele alınması gerektiğidir.",
     "topic": "Genel Tekrar",
     "difficulty": "zor"
+  },
+  {
+    "id": 101,
+    "question": "İslam hukukunda yokluğu insan için sıkıntı ve meşakkat doğuran şeylere ne ad verilir?",
+    "options": [
+      "Zaruret",
+      "İhtiyaç",
+      "Tahsiniyyat",
+      "İsraf"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta ihtiyaç, yokluğu insan için sıkıntı ve meşakkat doğuran gereksinimler olarak tanımlanır.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 102,
+    "question": "Dinin yasaklarını ihlal edecek düzeydeki tehlike ve zarara ne ad verilir?",
+    "options": [
+      "Örf",
+      "Zaruret",
+      "İmkân",
+      "Müsamaha"
+    ],
+    "answer": "B",
+    "explanation": "Zaruret, dinin yasaklarını ihlal edecek seviyedeki tehlike ve zarar olarak tanımlanır.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 103,
+    "question": "Katılım finans sektörünün önemli hedeflerinden biri aşağıdakilerden hangisidir?",
+    "options": [
+      "Toplumu yüksek faizle borçlandırmak",
+      "Toplumu faizden veya en azından yüksek faizden kurtarmak",
+      "Yalnızca döviz işlemlerini artırmak",
+      "Kamu harcamalarını kısmak"
+    ],
+    "answer": "B",
+    "explanation": "Giriş bölümünde katılım finansın önemli hedeflerinden birinin toplumu faizden, olmazsa yüksek faizden kurtarmak olduğu vurgulanır.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 104,
+    "question": "5411 sayılı Bankacılık Kanunu’na göre katılım bankalarının fon toplamada kullandığı temel hesaplar hangileridir?",
+    "options": [
+      "Repo ve yatırım hesabı",
+      "Özel cari hesap ve katılma hesabı",
+      "Vadeli mevduat ve repo",
+      "Sadece kredi kartı hesabı"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta katılım bankalarının özel cari ve katılma hesapları yoluyla fon topladığı belirtilir.",
+    "topic": "Katılım Bankasının Tanımı",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 105,
+    "question": "Katılım bankaları topladıkları fonu genel olarak hangi yöntemlerle işletir?",
+    "options": [
+      "Sadece faizli kredi ile",
+      "Murabaha, finansal kiralama ve adi kira gibi yöntemlerle",
+      "Sadece hisse senedi alarak",
+      "Sadece tahvil alarak"
+    ],
+    "answer": "B",
+    "explanation": "Tanım kısmında murabaha, leasing ve icare gibi yöntemlerle fonların işletildiği ifade edilir.",
+    "topic": "Katılım Bankasının Tanımı",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 106,
+    "question": "Türkiye’de katılım bankacılığının bankacılık sektörü içindeki yaklaşık payı hangi oran olarak verilir?",
+    "options": [
+      "%2",
+      "%5",
+      "%8",
+      "%15"
+    ],
+    "answer": "C",
+    "explanation": "Sektör büyüklüğü başlığında yaklaşık %8'lik bir büyüklükten söz edilir.",
+    "topic": "Sektör Büyüklüğü",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 107,
+    "question": "‘Eşyada aslolan mubahlıktır’ ve ‘akitlerde ve şartlarda aslolan mubahlık ve sıhhattir’ ifadeleri hangi ilkeyi destekler?",
+    "options": [
+      "Saygı ilkesi",
+      "Serbestlik ilkesi",
+      "İsraf etmeme ilkesi",
+      "Vergiye riayet ilkesi"
+    ],
+    "answer": "B",
+    "explanation": "Bu kaideler muamelat alanında serbestliğin esas olduğunu anlatır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 108,
+    "question": "İslamiyet’in muamelat alanındaki temel yaklaşımı hangisidir?",
+    "options": [
+      "Tam yasakçılık",
+      "Serbestlik esas, yasak arızidir",
+      "Sadece devlet izniyle serbestlik vardır",
+      "Yalnızca klasik akitlerle sınırlıdır"
+    ],
+    "answer": "B",
+    "explanation": "Serbestlik ilkesi başlığında muamelatta serbestliğin esas olduğu belirtilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 109,
+    "question": "‘Hepsi elde edilemeyenin tamamı terk edilmez’ ifadesi kitapta hangi ilke bağlamında kullanılır?",
+    "options": [
+      "İmkân ilkesi",
+      "Doğallık ilkesi",
+      "Kayıtlı ekonomi ilkesi",
+      "Açıklık ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "İmkân ilkesi bölümünde bu ifade, güç yetirilen kadarının yapılması gerektiğini anlatmak için kullanılır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 110,
+    "question": "İnsanlara faydalı şeyler üretme hedefi hangi ilke ile ilişkilendirilir?",
+    "options": [
+      "Üretme ilkesi",
+      "Paylaşım ilkesi",
+      "Örfe saygı ilkesi",
+      "Müsamaha ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Üretme ilkesi başlığı, çalışmayı ve faydalı üretimi öne çıkarır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 111,
+    "question": "‘Bizi aldatan bizden değildir’ hadisi kitapta özellikle hangi ilkeyi desteklemek için kullanılmıştır?",
+    "options": [
+      "Kolaylık ilkesi",
+      "Dürüstlük ilkesi",
+      "Doğallık ilkesi",
+      "Ucuz ulaşım ilkesi"
+    ],
+    "answer": "B",
+    "explanation": "Dürüstlük ilkesi bölümünde bu hadise atıf yapılır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 112,
+    "question": "Muamelat alanında teknolojik imkânlardan yararlanılarak işlemlerin kolaylaştırılabileceği hangi ilke altında anlatılır?",
+    "options": [
+      "Kolaylık ilkesi",
+      "Faizsizlik ilkesi",
+      "Paylaşım ilkesi",
+      "Saygı ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Kolaylık ilkesi bölümünde internet, kredi kartı ve telefon gibi araçlarla işlem yapmanın mümkün olduğu belirtilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 113,
+    "question": "Kitapta kâr haddi konusunda hangi yaklaşım benimsenmiştir?",
+    "options": [
+      "Her işlem için sabit bir kâr sınırı vardır",
+      "Kâr haddi yoktur, fiyatı piyasa belirler",
+      "Kâr yalnızca devletçe belirlenir",
+      "Kâr sadece maliyetin %10’u olabilir"
+    ],
+    "answer": "B",
+    "explanation": "Tabii piyasa ilkesi kısmında kâr haddinin bulunmadığı, fiyatın piyasa tarafından belirlendiği belirtilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 114,
+    "question": "Fâhiş kâr kitapta nasıl açıklanır?",
+    "options": [
+      "Malın maliyetine her türlü kâr eklenmesi",
+      "Malın piyasa değerinden çok fazlasına veya çok azına alım satım yapılması",
+      "Kâr elde edilememesi",
+      "Peşin satışın vadeli satıştan ucuz olması"
+    ],
+    "answer": "B",
+    "explanation": "Tabii piyasa ilkesi bölümünde fâhiş kârın maliyete eklenen kârdan değil, piyasa değerinden aşırı sapmadan kaynaklandığı belirtilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 115,
+    "question": "‘Şehirli köylünün malını satmasın’ rivayeti kitapta hangi ilkeyle ilişkilendirilmiştir?",
+    "options": [
+      "Saygı ilkesi",
+      "Ucuz ulaşım ilkesi",
+      "Paylaşım ilkesi",
+      "Açıklık ilkesi"
+    ],
+    "answer": "B",
+    "explanation": "Ucuz ulaşım ilkesi, gereksiz aracılık ve fiyat artışlarını önlemeye yöneliktir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 116,
+    "question": "Bir başkasının yaptığı alışverişi daha yüksek fiyat vererek bozma teşebbüsü hangi ilkeye aykırı görülür?",
+    "options": [
+      "Saygı ilkesi",
+      "Doğallık ilkesi",
+      "İmkân ilkesi",
+      "Kayıtlı ekonomi ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Saygı ilkesi bölümünde kardeşinin satın aldığı şeyi satın almaya kalkmama vurgulanır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 117,
+    "question": "Topluma zarar veren ürünlerin ticaretinin yasaklanması hangi ilkenin sonucudur?",
+    "options": [
+      "Kamuya zarar vermeme ilkesi",
+      "Paylaşım ilkesi",
+      "Müsamaha ilkesi",
+      "Örfe saygı ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Kitapta içki, kumar, falcılık ve benzeri zararlı alanların kamuya zarar vermeme ilkesiyle yasaklandığı anlatılır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 118,
+    "question": "Kitaba göre faiz öncelikle ve özellikle hangi işlemden doğan menfaattir?",
+    "options": [
+      "Kira akdinden",
+      "Ortaklıktan",
+      "Borçtan",
+      "Vekâletten"
+    ],
+    "answer": "C",
+    "explanation": "Faizsizlik ilkesi bölümünde faizin öncelikle borçtan elde edilen menfaat olduğu açıkça belirtilir.",
+    "topic": "Faiz",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 119,
+    "question": "Parasal alacağın iskontoyla başkasına devri kitapta nasıl nitelendirilir?",
+    "options": [
+      "Kira geliri",
+      "Ticari iskonto ve meşru gelir",
+      "Faiz doğuran işlem",
+      "Hibe"
+    ],
+    "answer": "C",
+    "explanation": "Faiz doğuran işlemler kısmında parasal alacağın iskontosu örneği verilir.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 120,
+    "question": "Peşin para karşılığında vadede teslim edilecek paraya günün kuruna ilave vade farkı eklenmesi kitapta nasıl değerlendirilir?",
+    "options": [
+      "Meşru ticaret",
+      "Caiz kira ilişkisi",
+      "Faizli işlem",
+      "Karz-ı hasen"
+    ],
+    "answer": "C",
+    "explanation": "Faiz bölümünde para değişimlerinde vadeye bağlanan fazlalığın meşru olmadığı vurgulanır.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 121,
+    "question": "‘Hâcet, umumi olsun veya hususi olsun, zaruret derecesine indirilir’ kaidesi hangi başlık altında anılır?",
+    "options": [
+      "Zararın izalesi ilkesi",
+      "Zaruret ve ihtiyaçları gözetme ilkesi",
+      "Vergiye riayet ilkesi",
+      "Tabii piyasa ilkesi"
+    ],
+    "answer": "B",
+    "explanation": "Madde 19’da bu kaide ihtiyaçların zaruret derecesinde değerlendirilebilmesi bağlamında verilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 122,
+    "question": "‘Zarar izale olunur’ kaidesi aşağıdaki ilkelerden hangisinin özeti niteliğindedir?",
+    "options": [
+      "Müsamaha ilkesi",
+      "Zararın izalesi ilkesi",
+      "Açıklık ilkesi",
+      "Doğallık ilkesi"
+    ],
+    "answer": "B",
+    "explanation": "Madde 20’de zararların giderilmesi temel ilke olarak anlatılır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 123,
+    "question": "İslamiyet’te toplumların örflerine, temel naslarla çelişmediği sürece itibar edilmesi hangi ilke ile açıklanır?",
+    "options": [
+      "Örfe saygı ilkesi",
+      "Saygı ilkesi",
+      "Serbestlik ilkesi",
+      "Akde riayet ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Kitapta örfün, naslara aykırı olmadıkça hükümde dikkate alınacağı belirtilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 124,
+    "question": "Malın emanet olduğu ve servetin toplum yararına dolaşıma sokulması gerektiği düşüncesi hangi ilke ile daha yakından ilgilidir?",
+    "options": [
+      "Paylaşım ilkesi",
+      "Kolaylık ilkesi",
+      "Açıklık ilkesi",
+      "Doğallık ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Paylaşım ilkesi bölümünde zekât, sadaka ve infak vurgulanır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 125,
+    "question": "‘Allah alırken, satarken ve borcu tahsil ederken müsamahakâr olana merhametiyle muamele etsin’ anlamındaki rivayet hangi ilkeyi destekler?",
+    "options": [
+      "Müsamaha ilkesi",
+      "İsraf etmeme ilkesi",
+      "Vergiye riayet ilkesi",
+      "Saygı ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 23'te alım satım ve tahsilde müsamaha tavsiye edilir.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 126,
+    "question": "Mülkün emanet olduğu ve haddi aşan tüketimin yasaklandığı hangi başlıkta anlatılır?",
+    "options": [
+      "İsraf etmeme ilkesi",
+      "Açıklık ilkesi",
+      "Vergiye riayet ilkesi",
+      "Tabii piyasa ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 24, israfın haddi aşmak olduğunu ve yasaklandığını ifade eder.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 127,
+    "question": "İslam hukukunda zekât, cizye ve haraç gibi uygulamalar hangi ilke ile ilişkilidir?",
+    "options": [
+      "Vergiye riayet ilkesi",
+      "Açıklık ilkesi",
+      "Paylaşım ilkesi",
+      "Saygı ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 25 verginin meşruiyetini ve kamu düzeni için önemini açıklar.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 128,
+    "question": "Akitlerde aşırı belirsizliğin istenmemesi hangi ilke ile açıklanır?",
+    "options": [
+      "Açıklık ilkesi",
+      "Doğallık ilkesi",
+      "Üretme ilkesi",
+      "İmkân ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 26'da garar ve cehaletin azaltılması amaçlanır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 129,
+    "question": "Akitlerde tarafların sözleşme hükümlerine bağlı kalması hangi ilkenin doğrudan konusudur?",
+    "options": [
+      "Akde riayet ilkesi",
+      "Müsamaha ilkesi",
+      "Paylaşım ilkesi",
+      "Kayıtlı ekonomi ilkesi"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 28 akde riayete ayrılmıştır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 130,
+    "question": "Karz-ı hasen aşağıdakilerden hangisini ifade eder?",
+    "options": [
+      "Kâr beyanı ile satış",
+      "Karşılıksız ödünç",
+      "Eser sözleşmesi",
+      "Yatırım vekâleti"
+    ],
+    "answer": "B",
+    "explanation": "İçerik ağacında karz-ı hasen karşılıksız ödünç olarak tanımlanır.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 131,
+    "question": "Ariyet aşağıdakilerden hangisidir?",
+    "options": [
+      "Kullanım ödüncü",
+      "Kâr ortaklığı",
+      "Satım akdi",
+      "Sigorta sözleşmesi"
+    ],
+    "answer": "A",
+    "explanation": "Kitapta ariyet kullanım ödüncü olarak geçer.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 132,
+    "question": "Aşağıdakilerden hangisi ortaklık akdinin kitapta verilen karşılığıdır?",
+    "options": [
+      "İcare",
+      "Şirket",
+      "Karz",
+      "İstisna"
+    ],
+    "answer": "B",
+    "explanation": "Madde 31 şirket/ortaklık başlığına ayrılmıştır.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 133,
+    "question": "Yatırım vekâleti hangi akit başlığı altında ele alınır?",
+    "options": [
+      "Vekâlet",
+      "Murabaha",
+      "Selem",
+      "Leasing"
+    ],
+    "answer": "A",
+    "explanation": "Madde 32’de vekâlet/yatırım vekâleti birlikte ele alınır.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 134,
+    "question": "İcâre aşağıdakilerden hangisidir?",
+    "options": [
+      "Kira",
+      "Satım",
+      "Karşılıksız ödünç",
+      "Ortaklık"
+    ],
+    "answer": "A",
+    "explanation": "Madde 33 icâre/kira başlığını taşır.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 135,
+    "question": "Finansal kiralama kitapta hangi kavramla birlikte anılır?",
+    "options": [
+      "Leasing",
+      "Selem",
+      "Karz",
+      "Ariyet"
+    ],
+    "answer": "A",
+    "explanation": "Madde 34 leasing/finansal kiralama olarak geçer.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 136,
+    "question": "Vadeli satım ile ilgili doğru ifade hangisidir?",
+    "options": [
+      "Paranın vade farkıyla satımıdır",
+      "Mal veya hizmetin bedelinin vadeye bağlandığı satımdır",
+      "Yalnızca hibe ilişkisi doğurur",
+      "Mutlaka faiz içerir"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta malların ve hizmetlerin vadeli satımının ticaret olduğu anlatılır.",
+    "topic": "Akitler",
+    "difficulty": "zor"
+  },
+  {
+    "id": 137,
+    "question": "Murabaha aşağıdakilerden hangisidir?",
+    "options": [
+      "Peşin ödemeli satım",
+      "Kâr beyanı ile satım",
+      "Eser sözleşmesi",
+      "Kullanım ödüncü"
+    ],
+    "answer": "B",
+    "explanation": "Madde 36 murabahayı kâr beyanı ile satım olarak tanımlar.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 138,
+    "question": "Teverruk aşağıdakilerden hangisi olarak ifade edilir?",
+    "options": [
+      "Ortaklığa dayalı sukuk",
+      "Kâr beyanı ile emtia satımı",
+      "Teminat mektubu komisyonu",
+      "Katılım sigortası"
+    ],
+    "answer": "B",
+    "explanation": "İçerik ağacında Madde 37 teverruku kâr beyanı ile emtia satımı olarak verir.",
+    "topic": "Akitler",
+    "difficulty": "zor"
+  },
+  {
+    "id": 139,
+    "question": "Selem akdi aşağıdakilerden hangisidir?",
+    "options": [
+      "Kullanım ödüncü",
+      "Peşin ödemeli satım",
+      "Kira sertifikası",
+      "Zaruret sebebiyle vadeli hesap"
+    ],
+    "answer": "B",
+    "explanation": "Madde 38 selem/peşin ödemeli satım başlığını taşır.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 140,
+    "question": "İstisna akdi kitapta nasıl adlandırılır?",
+    "options": [
+      "Eser sözleşmesi",
+      "Borç sözleşmesi",
+      "Kira sözleşmesi",
+      "Mudi sözleşmesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 39’da istisna eser sözleşmesi olarak geçer.",
+    "topic": "Akitler",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 141,
+    "question": "Faiz teorileri ve dinlerin faize bakışı hangi bölüm altında ele alınır?",
+    "options": [
+      "Faiz I",
+      "Banka Hesapları",
+      "Geciken Alacaklar",
+      "Bireysel Emeklilik"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Faiz I bölümünde bu başlıklar yer alır.",
+    "topic": "Faiz",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 142,
+    "question": "Aşağıdakilerden hangisi faiz doğuran diğer işlemler arasında sayılan örneklerden biridir?",
+    "options": [
+      "Vadeli parasal alacağın iskontosu",
+      "Adi kira sözleşmesi",
+      "Ortaklığa sermaye koyma",
+      "Karz-ı hasen"
+    ],
+    "answer": "A",
+    "explanation": "Faiz doğuran işlemler kısmında parasal alacağın iskontosu örneği verilir.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 143,
+    "question": "Kitapta enflasyon farkı, erken ödeme iskontosu ve hüsn-i eda hangi bölümün alt başlıklarıdır?",
+    "options": [
+      "Faiz II",
+      "Banka Kredileri",
+      "Kredi Kartı",
+      "Sukuk"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacına göre bu başlıklar Faiz II altında toplanmıştır.",
+    "topic": "Faiz",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 144,
+    "question": "Banka altın hesapları kitapta hangi ana bölüm içinde incelenmiştir?",
+    "options": [
+      "Faiz II",
+      "Banka Hesapları",
+      "Borsa ve Katılım Endeksi",
+      "Katılım Sigortası"
+    ],
+    "answer": "A",
+    "explanation": "Madde 50, Faiz II bölümü içinde yer alır.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 145,
+    "question": "Katılım bankalarında vadesiz hesaplarla ilgili aşağıdaki ifadelerden hangisi daha uygundur?",
+    "options": [
+      "Kesin kâr getirisi vardır",
+      "Önceden belirlenmiş faiz ödenir",
+      "Vadesiz nitelikte fon bulundurmayı sağlar",
+      "Sadece ortaklık fonudur"
+    ],
+    "answer": "C",
+    "explanation": "Banka hesapları bölümünde vadesiz hesaplar ayrı bir başlık olarak ele alınır.",
+    "topic": "Banka Hesapları",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 146,
+    "question": "Özel cari hesaplar hangi ana bölüm altında işlenir?",
+    "options": [
+      "Banka Hesapları",
+      "Faiz I",
+      "Bireysel Emeklilik",
+      "Kredi Kartı"
+    ],
+    "answer": "A",
+    "explanation": "Madde 57 özel cari hesaplar başlığı banka hesapları bölümündedir.",
+    "topic": "Banka Hesapları",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 147,
+    "question": "Katılma hesaplarında vade sonunda fazlalık alınacağı kitapta nasıl değerlendirilir?",
+    "options": [
+      "Kesindir",
+      "Zarar ihtimali olmadığından garantidir",
+      "Kesin değildir; zarar ihtimali de vardır",
+      "Sadece devlet garantisine bağlıdır"
+    ],
+    "answer": "C",
+    "explanation": "Kitapta katılma hesaplarında vade sonu fazlalığın kesin olmadığı ifade edilir.",
+    "topic": "Banka Hesapları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 148,
+    "question": "Katılma hesapları ile faizli bankalardaki vadeli hesaplar arasındaki temel farklardan biri aşağıdakilerden hangisidir?",
+    "options": [
+      "Katılma hesabında kâr önceden kesin belirlenir",
+      "Faizli vadeli hesapta getirinin miktarı baştan sabitlenir",
+      "Katılma hesabında zarar ihtimali yoktur",
+      "Faizli vadeli hesapta anapara korunmaz"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta faizli bankalarda verilecek faiz baştan belirlenirken katılma hesaplarında fazlalığın dönem kârına bağlı olduğu belirtilir.",
+    "topic": "Banka Hesapları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 149,
+    "question": "TMSF ile ilgili kitapta verilen temel bilgi aşağıdakilerden hangisidir?",
+    "options": [
+      "Yalnızca katılım bankalarını denetler",
+      "Tüm bankalardaki tasarruf mevduatlarının belli kısmı TMSF güvencesi altındadır",
+      "Sadece kredi kartı harcamalarını sigortalar",
+      "Yalnızca sukuk yatırımlarını korur"
+    ],
+    "answer": "B",
+    "explanation": "Madde 59'da tüm bankalardaki tasarruf mevduatlarının belli kısmının TMSF güvencesinde olduğu belirtilir.",
+    "topic": "Banka Hesapları",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 150,
+    "question": "Katılma hesaplarına dağıtılan kârların vadeli hesaplara verilen faize yakın olması hangi başlıkta ele alınır?",
+    "options": [
+      "Madde 62",
+      "Madde 47",
+      "Madde 88",
+      "Madde 111"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 62 bu konuya ayrılmıştır.",
+    "topic": "Banka Hesapları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 151,
+    "question": "Mevduat bankası kredileri ile katılım bankası murabahasının ayrı başlıklarda incelenmesi hangi bölümde yer alır?",
+    "options": [
+      "Banka Kredileri",
+      "Banka Hesapları",
+      "Faiz I",
+      "Kredi Kartı"
+    ],
+    "answer": "A",
+    "explanation": "Madde 63-72 banka kredileri bölümündedir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 152,
+    "question": "Katılım bankasından murabaha, kitapta hangi işlem türüyle ilişkilendirilir?",
+    "options": [
+      "Borçtan fazlalık alma",
+      "Kâr beyanı ile satım esaslı finansman",
+      "Sadece hibe",
+      "Faizsiz sigorta"
+    ],
+    "answer": "B",
+    "explanation": "Murabaha, kâr beyanı ile satım temelli finansman yöntemi olarak işlenir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 153,
+    "question": "‘Murabaha faiz hilesi midir?’ sorusunun ayrı madde halinde incelenmesi hangi sonucu gösterir?",
+    "options": [
+      "Kitabın murabahaya eleştirel ve savunmalı iki yönüyle yaklaştığını",
+      "Murabahanın kesinlikle yasak olduğunu",
+      "Murabahanın sadece mevduat hesabı olduğunu",
+      "Murabahanın sigorta çeşidi olduğunu"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında murabahanın meşruiyeti ve eleştirileri ayrı başlıklarda tartışılır.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 154,
+    "question": "Katılım bankalarının murabaha oranları ile banka kredi oranlarının yakınlığı hangi madde numarası ile verilmiştir?",
+    "options": [
+      "67",
+      "75",
+      "82",
+      "98"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında bu konu Madde 67’de geçer.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 155,
+    "question": "Katılım bankalarında murabahanın uygulanışı hangi madde altında ele alınır?",
+    "options": [
+      "Madde 69",
+      "Madde 58",
+      "Madde 47",
+      "Madde 103"
+    ],
+    "answer": "A",
+    "explanation": "Murabahanın uygulanışı Madde 69’dadır.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 156,
+    "question": "Katılım bankalarının murabahada malı görmemesi hangi başlıkta tartışılır?",
+    "options": [
+      "Madde 70",
+      "Madde 36",
+      "Madde 84",
+      "Madde 114"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 70 bu hususa ayrılmıştır.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 157,
+    "question": "Katılım bankalarının murabahaya konu olan malın evraklarını kendi adlarına düzenletmemesi hangi başlıkta ele alınır?",
+    "options": [
+      "Madde 71",
+      "Madde 73",
+      "Madde 59",
+      "Madde 31"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında bu konu Madde 71’dir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 158,
+    "question": "Murabaha malında çıkacak kusurdan sorumlu olmama tartışması hangi madde numarasıyla yer alır?",
+    "options": [
+      "72",
+      "62",
+      "52",
+      "42"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 72 bu başlığa ayrılmıştır.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 159,
+    "question": "Kitapta murabaha ile ilgili ayrı ayrı ele alınan konular düşünüldüğünde aşağıdakilerden hangisi bunlardan biri değildir?",
+    "options": [
+      "Uygulanışı",
+      "Malı görmeme",
+      "Evrakların banka adına düzenlenmemesi",
+      "Zorunlu karşılık oranı"
+    ],
+    "answer": "D",
+    "explanation": "Murabaha başlıkları 65-72 arasında sıralanır; zorunlu karşılık farklı bölümde yer alır.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 160,
+    "question": "Murabahanın kitapta ayrıntılı incelenmesinin temel nedeni aşağıdakilerden hangisi olabilir?",
+    "options": [
+      "Katılım bankacılığında kullanılan temel finansman yöntemlerinden biri olması",
+      "Sadece kredi kartı aidatıyla ilgili olması",
+      "Sadece sigorta ürününü ifade etmesi",
+      "Yalnızca borsa işlemlerinde kullanılması"
+    ],
+    "answer": "A",
+    "explanation": "Katılım bankalarının fon kullandırmada murabaha gibi yöntemleri kullanması sebebiyle bu başlık ayrıntılı işlenmiştir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 161,
+    "question": "Tahvil / bono ile sukuk kitapta hangi ana başlık altında birlikte incelenir?",
+    "options": [
+      "Tahvil - Bono - Sukuk",
+      "Faiz II",
+      "Borsa ve Katılım Endeksi",
+      "Bireysel Emeklilik"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında bu araçlar aynı bölümde toplanmıştır.",
+    "topic": "Sukuk ve Sermaye Piyasası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 162,
+    "question": "Sukuk kitapta başka hangi adla da anılır?",
+    "options": [
+      "Katılma hesabı",
+      "Yatırım sertifikası",
+      "Özel cari hesap",
+      "Kâr payı kuponu"
+    ],
+    "answer": "B",
+    "explanation": "Madde 74’te sukuk / yatırım sertifikası ifadesi kullanılır.",
+    "topic": "Sukuk ve Sermaye Piyasası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 163,
+    "question": "İcare sukuku aşağıdakilerden hangisiyle eşleştirilmiştir?",
+    "options": [
+      "Kira sertifikası",
+      "Bonus puanı",
+      "Teminat mektubu",
+      "Haciz belgesi"
+    ],
+    "answer": "A",
+    "explanation": "Madde 75 icare sukukunu kira sertifikası olarak verir.",
+    "topic": "Sukuk ve Sermaye Piyasası",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 164,
+    "question": "Aşağıdakilerden hangisi kitapta yer alan sukuk türlerinden biri değildir?",
+    "options": [
+      "Murabaha sukuku",
+      "Yönetim sözleşmesine dayalı sukuk",
+      "Ortaklığa dayalı sukuk",
+      "Vadeli mevduat sukuku"
+    ],
+    "answer": "D",
+    "explanation": "Kitapta 75-78. maddelerde ilk üçü yer alır; vadeli mevduat sukuku diye bir başlık yoktur.",
+    "topic": "Sukuk ve Sermaye Piyasası",
+    "difficulty": "zor"
+  },
+  {
+    "id": 165,
+    "question": "Kredi kartı sisteminin işleyişi hangi madde numarası ile ele alınır?",
+    "options": [
+      "81",
+      "73",
+      "91",
+      "109"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 81 kredi kartı sisteminin işleyişidir.",
+    "topic": "Kredi Kartı",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 166,
+    "question": "Uluslararası kart kuruluşuna ödenen komisyon hangi madde başlığında incelenir?",
+    "options": [
+      "82",
+      "86",
+      "88",
+      "102"
+    ],
+    "answer": "A",
+    "explanation": "Madde 82 bu başlığı taşır.",
+    "topic": "Kredi Kartı",
+    "difficulty": "zor"
+  },
+  {
+    "id": 167,
+    "question": "Kart ücreti, nakit çekim ve POS komisyonu hangi ana bölümde art arda işlenir?",
+    "options": [
+      "Kredi Kartı",
+      "Banka Kredileri",
+      "Faiz II",
+      "Sigorta"
+    ],
+    "answer": "A",
+    "explanation": "Madde 83-85 kredi kartı bölümü içinde yer alır.",
+    "topic": "Kredi Kartı",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 168,
+    "question": "POS komisyonsuz blokeli sistem hangi madde numarası ile verilmiştir?",
+    "options": [
+      "86",
+      "76",
+      "66",
+      "56"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 86’dır.",
+    "topic": "Kredi Kartı",
+    "difficulty": "zor"
+  },
+  {
+    "id": 169,
+    "question": "Kredi kartıyla alışveriş ve bonuslar hangi maddelerde ele alınır?",
+    "options": [
+      "87 ve 88",
+      "79 ve 80",
+      "81 ve 82",
+      "89 ve 90"
+    ],
+    "answer": "A",
+    "explanation": "Kredi kartıyla alışveriş 87, bonuslar 88. maddededir.",
+    "topic": "Kredi Kartı",
+    "difficulty": "zor"
+  },
+  {
+    "id": 170,
+    "question": "Kart platformlarına üyelik hangi başlık altında incelenir?",
+    "options": [
+      "Madde 89",
+      "Madde 69",
+      "Madde 59",
+      "Madde 109"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 89 kart platformlarına üyeliğe ayrılmıştır.",
+    "topic": "Kredi Kartı",
+    "difficulty": "zor"
+  },
+  {
+    "id": 171,
+    "question": "Geciken alacaklar bölümünde borca sadakat ve borçluya müsamaha hangi maddelerde ele alınır?",
+    "options": [
+      "91 ve 92",
+      "93 ve 94",
+      "97 ve 98",
+      "101 ve 102"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 91 borca sadakat, 92 borçluya müsamahadır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 172,
+    "question": "Kitaba göre aşağıdakilerden hangisi geciken alacaklar bölümünde yer almaz?",
+    "options": [
+      "Borcun mazeretsiz geciktirilmesi suçtur",
+      "Borcun vaktinde tahsili gereklidir",
+      "Murabaha malında kusurdan sorumluluk",
+      "Haciz"
+    ],
+    "answer": "C",
+    "explanation": "Murabaha malında kusurdan sorumluluk farklı bölümde, geciken alacaklarda ise 90-103 arası konular vardır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 173,
+    "question": "Borcun mazeretsiz geciktirilmesi kitapta nasıl nitelendirilir?",
+    "options": [
+      "Mubah bir tercih",
+      "Suç",
+      "Sadece teamül",
+      "Vergisel avantaj"
+    ],
+    "answer": "B",
+    "explanation": "Madde 93 doğrudan bu ifadeyi taşır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 174,
+    "question": "Geciken borçlarda enflasyon farkının tahsili hangi madde numarasıyla yer alır?",
+    "options": [
+      "98",
+      "88",
+      "78",
+      "68"
+    ],
+    "answer": "A",
+    "explanation": "Madde 98 bu başlığa ayrılmıştır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 175,
+    "question": "Gecikme cezası alıp hak edilen kısmı ayırarak bakiyeyi sosyal projelere aktarma hangi madde altında anlatılır?",
+    "options": [
+      "102",
+      "99",
+      "94",
+      "90"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 102 tam olarak bu başlığı taşır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 176,
+    "question": "Kitapta gecikme cezası ile ilgili temel vurgu aşağıdakilerden hangisidir?",
+    "options": [
+      "Gecikme cezası faizdir",
+      "Gecikme cezası faiz değildir",
+      "Her gecikme tamamen affedilir",
+      "Gecikme halinde sadece bonus verilir"
+    ],
+    "answer": "B",
+    "explanation": "Madde 103'te gecikme cezasının faiz olmadığı açıkça belirtilir.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 177,
+    "question": "Mahrum kalınan kar payı hangi bölümün alt başlığıdır?",
+    "options": [
+      "Geciken Alacaklar",
+      "Sukuk",
+      "Kredi Kartı",
+      "Bireysel Emeklilik"
+    ],
+    "answer": "A",
+    "explanation": "Madde 101 bu başlığı taşır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 178,
+    "question": "Borçludan tahsil edilebilecek tahsil masrafları hangi madde ile anılır?",
+    "options": [
+      "99",
+      "89",
+      "79",
+      "69"
+    ],
+    "answer": "A",
+    "explanation": "Madde 99 geciken borçların tahsil masraflarıdır.",
+    "topic": "Geciken Alacaklar",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 179,
+    "question": "Konvansiyonel sigortaya eleştiriler ve katılım sigortası hangi ana bölümde incelenir?",
+    "options": [
+      "Sigorta ve Katılım Sigortası",
+      "Bireysel Emeklilik",
+      "Kredi Kartı",
+      "Faiz II"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında 104-109. maddeler sigorta ve katılım sigortasına ayrılmıştır.",
+    "topic": "Sigorta",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 180,
+    "question": "Katılım sigortası aşağıdaki maddelerden hangisinde yer alır?",
+    "options": [
+      "107",
+      "97",
+      "87",
+      "77"
+    ],
+    "answer": "A",
+    "explanation": "Madde 107 katılım sigortası başlığını taşır.",
+    "topic": "Sigorta",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 181,
+    "question": "Konvansiyonel sigortaya icazet hangi madde numarasıyla verilir?",
+    "options": [
+      "108",
+      "104",
+      "98",
+      "88"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 108 bu konudur.",
+    "topic": "Sigorta",
+    "difficulty": "zor"
+  },
+  {
+    "id": 182,
+    "question": "Katılım bankalarının acentalık durumu hangi bölümde geçer?",
+    "options": [
+      "Sigorta ve Katılım Sigortası",
+      "Banka Kredileri",
+      "Geciken Alacaklar",
+      "Faiz I"
+    ],
+    "answer": "A",
+    "explanation": "Madde 109 katılım bankalarının acentalık durumunu ele alır.",
+    "topic": "Sigorta",
+    "difficulty": "zor"
+  },
+  {
+    "id": 183,
+    "question": "Bireysel emeklilikte 2008 yılı kırılma noktası olarak hangi madde altında anılır?",
+    "options": [
+      "111",
+      "101",
+      "91",
+      "81"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacına göre bu başlık Madde 111’dir.",
+    "topic": "Bireysel Emeklilik",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 184,
+    "question": "Bireysel emeklilik yatırım fon içeriği hangi madde numarasıdır?",
+    "options": [
+      "113",
+      "103",
+      "93",
+      "83"
+    ],
+    "answer": "A",
+    "explanation": "Madde 113 bu konuya ayrılmıştır.",
+    "topic": "Bireysel Emeklilik",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 185,
+    "question": "Devlet katkısı aşağıdaki hangi bölümde ele alınır?",
+    "options": [
+      "Bireysel Emeklilik",
+      "Sukuk",
+      "Kredi Kartı",
+      "Banka Hesapları"
+    ],
+    "answer": "A",
+    "explanation": "Madde 114 devlet katkısı başlığını taşır.",
+    "topic": "Bireysel Emeklilik",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 186,
+    "question": "Borsa ve katılım endeksi, teminat mektubu komisyonu ve zorunlu karşılıklar hangi ana başlık altında toplanır?",
+    "options": [
+      "Merak Edilen Bazı Konular",
+      "Faiz II",
+      "Katılım Finans İlkeleri",
+      "Banka Hesapları"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında 115-117. maddeler Merak Edilen Bazı Konular başlığı altındadır.",
+    "topic": "Diğer Konular",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 187,
+    "question": "Zorunlu karşılıklar kitapta hangi madde numarasıyla yer alır?",
+    "options": [
+      "117",
+      "107",
+      "97",
+      "87"
+    ],
+    "answer": "A",
+    "explanation": "İçerik ağacında Madde 117 zorunlu karşılıklar olarak geçer.",
+    "topic": "Diğer Konular",
+    "difficulty": "kolay"
+  },
+  {
+    "id": 188,
+    "question": "Teminat mektubu komisyonu hangi madde ile ilişkilendirilir?",
+    "options": [
+      "116",
+      "106",
+      "96",
+      "86"
+    ],
+    "answer": "A",
+    "explanation": "Madde 116 teminat mektubu komisyonudur.",
+    "topic": "Diğer Konular",
+    "difficulty": "zor"
+  },
+  {
+    "id": 189,
+    "question": "Katılım finansın ahlaki temelleri açısından aşağıdakilerden hangisi merkezi bir yer tutar?",
+    "options": [
+      "Sadece teknik uygunluk",
+      "Varlığın emanet olduğu bilinci",
+      "Kârın gizli tutulması",
+      "Yalnızca vergi avantajı"
+    ],
+    "answer": "B",
+    "explanation": "Katılım finans ilkeleri ve ahlakı kısmında insanın sahip olduklarının emanet olduğu vurgulanır.",
+    "topic": "Katılım Finans İlkeleri",
+    "difficulty": "zor"
+  },
+  {
+    "id": 190,
+    "question": "Katılım bankacılığının kurumsal yapı ihtiyacı ile ilişkili olarak aşağıdaki risklerden hangisi özellikle vurgulanır?",
+    "options": [
+      "Faiz hassasiyeti olan kişilerin sağlıksız yapılarda mağdur olması",
+      "Yalnızca döviz kurunun düşmesi",
+      "Sadece kamu mevduatının azalması",
+      "Sadece şube sayısının artması"
+    ],
+    "answer": "A",
+    "explanation": "Kurumsal yapı ihtiyacı bölümünde kötü niyetli ve ehliyetsiz yapılara karşı koruma ihtiyacı öne çıkar.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 191,
+    "question": "Faizsiz ekonominin topluma katkısı hangi düşünceyle temellendirilir?",
+    "options": [
+      "Yüksek faiz kalkınmayı hızlandırır",
+      "Faiz ödemedikçe toplum daha müreffeh olabilir",
+      "Faiz yalnızca bireysel sorundur",
+      "Faiz sadece dış ticareti etkiler"
+    ],
+    "answer": "B",
+    "explanation": "Giriş bölümünde yüksek faiz ödemelerinin kalkınmayı zayıflattığı ve faizsiz yolların refahı artıracağı ifade edilir.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 192,
+    "question": "Katılım bankacılığı ile ilgili aşağıdaki ifadelerden hangisi kitapla uyumludur?",
+    "options": [
+      "Mevzuatı tamamen ayrı ve tamamlanmıştır",
+      "Katılım Finans Kanunu üzerinde çalışmalar sürmektedir",
+      "Türkiye’de hiç kamu katılım bankası yoktur",
+      "Sektör sadece özel bankalardan oluşur"
+    ],
+    "answer": "B",
+    "explanation": "Sektör büyüklüğü kısmında ayrı mevzuatın tamamlanmadığı ve kanun çalışmalarının sürdüğü belirtilir.",
+    "topic": "Sektör Büyüklüğü",
+    "difficulty": "zor"
+  },
+  {
+    "id": 193,
+    "question": "Faizsiz finansal enstrümanlar geliştirme çabası kitapta en çok hangi tehdide cevap olarak görülür?",
+    "options": [
+      "Yalnızca enflasyona",
+      "Yalnızca vergi kaybına",
+      "Faiz tehdidine ve finansal saldırılara",
+      "Sadece kredi kartı borçlarına"
+    ],
+    "answer": "C",
+    "explanation": "Giriş bölümünde finansal saldırılar ve faiz tehdidi bağlamında faizsiz enstrüman geliştirme hedefi vurgulanır.",
+    "topic": "Giriş ve Temel Kavramlar",
+    "difficulty": "zor"
+  },
+  {
+    "id": 194,
+    "question": "Faiz ile ticari kâr arasındaki temel ayrım aşağıdakilerden hangisidir?",
+    "options": [
+      "Faiz maldan, kâr ise yalnızca hizmetten doğar",
+      "Faiz borçtan fazlalıktır; ticari kâr ise meşru bir akit ve maliyete katlanma sonucudur",
+      "İkisi tamamen aynıdır",
+      "Ticari kâr da her durumda borçtan doğar"
+    ],
+    "answer": "B",
+    "explanation": "Faiz bölümünde araç örneği verilerek kâr ile faizin ayrımı yapılır.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 195,
+    "question": "Vadeli satımın meşruiyeti ile paranın vade farkıyla satımının gayrimeşruluğu arasındaki farkın temel nedeni aşağıdakilerden hangisidir?",
+    "options": [
+      "Birinin altınla yapılması",
+      "Mal/hizmet ticareti ile para değişiminin aynı şey olmaması",
+      "Her ikisinin de yalnızca örfe dayanması",
+      "Vadeli satımda risk olmaması"
+    ],
+    "answer": "B",
+    "explanation": "Kitapta mal ve hizmetin vadeli satımının ticaret, paranın vadeli fazlalıklı değişiminin ise faiz olduğu açıklanır.",
+    "topic": "Faiz",
+    "difficulty": "zor"
+  },
+  {
+    "id": 196,
+    "question": "Katılma hesaplarında zarar ihtimalini minimize etmek için ihtiyatlı çalışmanın kitapta değerlendirilmesi nasıldır?",
+    "options": [
+      "Gayrimeşrudur",
+      "Mekruhtur",
+      "Dinen meşru ve doğal kabul edilir",
+      "Sadece zorunlu karşılık nedeniyle mümkündür"
+    ],
+    "answer": "C",
+    "explanation": "Kitapta zarar ihtimalini azaltmak için profesyonel ve ihtiyatlı çalışmanın meşru olduğu belirtilir.",
+    "topic": "Banka Hesapları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 197,
+    "question": "Faizli banka vadeli hesabı ile katılım bankası katılma hesabı arasındaki ayrım bakımından aşağıdakilerden hangisi doğrudur?",
+    "options": [
+      "Faizli bankada getiri dönem karına bağlıdır",
+      "Katılım hesabında getiri her durumda sabittir",
+      "Faizli bankada anaparadan fazlası her halükarda alınır",
+      "Katılım hesabında zarar ihtimali yoktur"
+    ],
+    "answer": "C",
+    "explanation": "Metinde faizli bankada her durumda anaparadan fazlasının alınacağı, katılma hesabında ise bunun kesin olmadığı anlatılır.",
+    "topic": "Banka Hesapları",
+    "difficulty": "zor"
+  },
+  {
+    "id": 198,
+    "question": "Katılım bankalarının fon toplama ve kullandırma modeli aşağıdakilerden hangisini birleştirir?",
+    "options": [
+      "Özel cari ve katılma hesaplarıyla fon toplama; murabaha ve kira benzeri işlemlerle kullandırma",
+      "Sadece sermaye piyasası ihracı",
+      "Yalnızca karşılıksız ödünç verme",
+      "Sadece kamu tahvili alımı"
+    ],
+    "answer": "A",
+    "explanation": "Tanım bölümünde bu yapı açıkça anlatılır.",
+    "topic": "Katılım Bankasının Tanımı",
+    "difficulty": "zor"
+  },
+  {
+    "id": 199,
+    "question": "Murabahanın kitapta yoğun biçimde tartışılmasının nedeni aşağıdakilerden hangisiyle en iyi açıklanır?",
+    "options": [
+      "Katılım bankalarının uygulamasında merkezî rol oynaması ve faizle karıştırılma ihtimali",
+      "Sadece muhasebe fişi olması",
+      "Yalnızca sigorta acenteliğinde kullanılması",
+      "Sadece bireysel emeklilik fonu olması"
+    ],
+    "answer": "A",
+    "explanation": "İçerik başlıkları murabahaya hem uygulama hem eleştiri açısından geniş yer verildiğini gösterir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
+  },
+  {
+    "id": 200,
+    "question": "Katılım bankalarının murabahada malı görmemesi ve evrakların kendi adına düzenlenmemesi gibi başlıkların ayrı ele alınması neyi gösterir?",
+    "options": [
+      "Uygulama ile teori arasında tartışmalı alanların bulunduğunu",
+      "Murabahanın sadece yasak olduğunu",
+      "Bankaların mal alım satımıyla ilgilenmediğini",
+      "Katılım bankalarının hiçbir risk taşımadığını"
+    ],
+    "answer": "A",
+    "explanation": "İçerik yapısı, uygulamadaki tartışmalı noktaların ayrıca incelendiğini gösterir.",
+    "topic": "Banka Kredileri ve Murabaha",
+    "difficulty": "zor"
   }
 ]
