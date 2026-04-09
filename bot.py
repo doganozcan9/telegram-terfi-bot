@@ -4,6 +4,7 @@ import logging
 import os
 import random
 import sqlite3
+import re
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -27,6 +28,7 @@ logging.getLogger("httpx").setLevel(logging.WARNING)
 
 BASE_DIR = Path(__file__).resolve().parent
 QUESTIONS_FILE = BASE_DIR / "questions.json"
+INFO_CARDS_FILE = BASE_DIR / "info_cards.json"
 DB_FILE = BASE_DIR / "quiz_bot.db"
 
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
@@ -208,7 +210,7 @@ def get_daily_quiz_enabled(user_id: int) -> bool:
 
 
 # =========================
-# QUESTIONS
+# LOAD FILES
 # =========================
 
 def load_questions() -> List[Dict[str, Any]]:
@@ -251,8 +253,34 @@ def load_questions() -> List[Dict[str, Any]]:
     return questions
 
 
+def load_info_cards() -> List[Dict[str, Any]]:
+    if not INFO_CARDS_FILE.exists():
+        raise FileNotFoundError(f"info_cards.json bulunamadı: {INFO_CARDS_FILE}")
+
+    with INFO_CARDS_FILE.open("r", encoding="utf-8") as f:
+        cards = json.load(f)
+
+    if not isinstance(cards, list) or not cards:
+        raise ValueError("info_cards.json boş veya geçersiz formatta.")
+
+    required = {"id", "category", "topic", "title", "content", "tags"}
+
+    for idx, card in enumerate(cards, start=1):
+        if not isinstance(card, dict):
+            raise ValueError(f"{idx}. kart nesne formatında değil.")
+
+        missing = required - set(card.keys())
+        if missing:
+            raise ValueError(f"{idx}. kartta eksik alan var: {missing}")
+
+    return cards
+
+
 QUESTIONS = load_questions()
 QUESTION_MAP = {q["id"]: q for q in QUESTIONS}
+
+INFO_CARDS = load_info_cards()
+INFO_CARD_MAP = {c["id"]: c for c in INFO_CARDS}
 
 
 # =========================
@@ -294,9 +322,42 @@ def reset_quiz_state(state: Dict[str, Any]) -> None:
     )
 
 
+def get_card_state(context: ContextTypes.DEFAULT_TYPE) -> Dict[str, Any]:
+    return context.user_data.setdefault(
+        "card_state",
+        {
+            "category": None,
+            "topic": None,
+            "filtered_cards": [],
+            "current_index": 0,
+        },
+    )
+
+
+def reset_card_state(state: Dict[str, Any]) -> None:
+    state.clear()
+    state.update(
+        {
+            "category": None,
+            "topic": None,
+            "filtered_cards": [],
+            "current_index": 0,
+        }
+    )
+
+
 # =========================
 # HELPERS
 # =========================
+
+def normalize_text(text: str) -> str:
+    text = text.lower().strip()
+    text = text.replace("â", "a").replace("î", "i").replace("û", "u")
+    text = text.replace("ı", "i").replace("ğ", "g").replace("ş", "s").replace("ö", "o").replace("ü", "u").replace("ç", "c")
+    text = re.sub(r"[^a-z0-9\s]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
+    return text
+
 
 def unique_topics() -> List[str]:
     return sorted({q["topic"] for q in QUESTIONS})
@@ -309,6 +370,14 @@ def unique_difficulties() -> List[str]:
         all_diffs,
         key=lambda x: preferred_order.index(x) if x in preferred_order else 999
     )
+
+
+def unique_card_categories() -> List[str]:
+    return sorted({c["category"] for c in INFO_CARDS})
+
+
+def unique_card_topics_by_category(category: str) -> List[str]:
+    return sorted({c["topic"] for c in INFO_CARDS if c["category"] == category})
 
 
 def filter_questions(
@@ -324,6 +393,27 @@ def filter_questions(
         filtered = [q for q in filtered if q["difficulty"] == difficulty]
 
     return filtered
+
+
+def filter_questions_by_card_topic(card_topic: str) -> List[Dict[str, Any]]:
+    target = normalize_text(card_topic)
+    matches = []
+
+    for q in QUESTIONS:
+        q_topic = normalize_text(q["topic"])
+        if target == q_topic or target in q_topic or q_topic in target:
+            matches.append(q)
+
+    if matches:
+        return matches
+
+    # ikinci deneme: soru metninde başlık aranır
+    for q in QUESTIONS:
+        q_text = normalize_text(q["question"])
+        if target in q_text:
+            matches.append(q)
+
+    return matches
 
 
 def build_queue(pool: List[Dict[str, Any]], question_count: int) -> List[Dict[str, Any]]:
@@ -385,6 +475,27 @@ def build_question_message(q: Dict[str, Any], asked_no: int, total_count: int) -
     return question_text(q, asked_no, total_count) + "\n\n" + options_text(q)
 
 
+def build_card_message(card: Dict[str, Any], index: int, total: int) -> str:
+    category_label = "Katılım Bankacılığı" if card["category"] == "katilim_bankaciligi" else "Genel Bankacılık"
+    tags_text = ", ".join(card.get("tags", []))
+
+    lines = [
+        "📚 Bilgi Kartı",
+        f"┌ Kart: {index}/{total}",
+        f"├ Kategori: {category_label}",
+        f"└ Konu: {card['topic']}",
+        "",
+        f"{card['title']}",
+        "",
+        card["content"],
+    ]
+
+    if tags_text:
+        lines.extend(["", f"Etiketler: {tags_text}"])
+
+    return "\n".join(lines)
+
+
 def answer_keyboard(q: Dict[str, Any]) -> InlineKeyboardMarkup:
     rows = []
     row = []
@@ -426,6 +537,7 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton("🎲 Karma Test Başlat", callback_data="menu|random")],
             [InlineKeyboardButton("🧩 Konu Seç", callback_data="menu|topic")],
             [InlineKeyboardButton("⚡ Zorluk Seç", callback_data="menu|difficulty")],
+            [InlineKeyboardButton("📚 Bilgi Kartları", callback_data="menu|info_cards")],
             [InlineKeyboardButton("🔁 Yanlışlarım", callback_data="menu|wrong")],
             [InlineKeyboardButton("📊 İstatistik", callback_data="menu|stats")],
             [InlineKeyboardButton("🌞 Günlük Deneme Aç", callback_data="menu|daily_on")],
@@ -438,9 +550,52 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
 def question_count_keyboard(prefix: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
         [
+            [InlineKeyboardButton("5 Soru", callback_data=f"{prefix}|5")],
             [InlineKeyboardButton("10 Soru", callback_data=f"{prefix}|10")],
             [InlineKeyboardButton("20 Soru", callback_data=f"{prefix}|20")],
             [InlineKeyboardButton("50 Soru", callback_data=f"{prefix}|50")],
+        ]
+    )
+
+
+def card_category_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("Katılım Bankacılığı", callback_data="cardcat|katilim_bankaciligi")],
+            [InlineKeyboardButton("Genel Bankacılık", callback_data="cardcat|genel_bankacilik")],
+            [InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")],
+        ]
+    )
+
+
+def card_topic_keyboard(category: str) -> InlineKeyboardMarkup:
+    topics = unique_card_topics_by_category(category)
+    rows = [[InlineKeyboardButton(topic, callback_data=f"cardtopic|{category}|{topic}")] for topic in topics]
+    rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
+    return InlineKeyboardMarkup(rows)
+
+
+def card_nav_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton("⬅️ Önceki", callback_data="cardnav|prev"),
+                InlineKeyboardButton("➡️ Sonraki", callback_data="cardnav|next"),
+            ],
+            [InlineKeyboardButton("📝 Bu Konudan Soru Çöz", callback_data="cardsolve")],
+            [InlineKeyboardButton("📚 Konu Listesi", callback_data="menu|info_cards")],
+            [InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")],
+        ]
+    )
+
+
+def solve_count_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("5 Soru", callback_data="cardsolvecount|5")],
+            [InlineKeyboardButton("10 Soru", callback_data="cardsolvecount|10")],
+            [InlineKeyboardButton("20 Soru", callback_data="cardsolvecount|20")],
+            [InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")],
         ]
     )
 
@@ -455,8 +610,11 @@ async def ping(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    state = get_user_state(context)
-    reset_quiz_state(state)
+    quiz_state = get_user_state(context)
+    reset_quiz_state(quiz_state)
+
+    card_state = get_card_state(context)
+    reset_card_state(card_state)
 
     if update.effective_user:
         ensure_user(
@@ -468,10 +626,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if update.message:
         await update.message.reply_text(
             "🎯 Terfi Sınavı Botuna Hoş Geldin\n\n"
-            "Buradan test modunu seçebilirsin:\n"
+            "Buradan test veya bilgi kartı modunu seçebilirsin:\n"
             "• Karma test\n"
             "• Konuya göre test\n"
             "• Zorluğa göre test\n"
+            "• Bilgi kartları\n"
             "• Yanlışlarını tekrar et\n"
             "• Günlük deneme başlat\n\n"
             "Aşağıdaki menüyü kullan 👇",
@@ -736,6 +895,152 @@ async def handle_answer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 
 # =========================
+# INFO CARD FLOW
+# =========================
+
+async def show_current_card(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    card_state = get_card_state(context)
+
+    filtered_cards = card_state.get("filtered_cards", [])
+    current_index = card_state.get("current_index", 0)
+
+    if not filtered_cards:
+        await query.edit_message_text(
+            text="Bu filtre için bilgi kartı bulunamadı.",
+            reply_markup=card_category_keyboard(),
+        )
+        return
+
+    card = filtered_cards[current_index]
+    await query.edit_message_text(
+        text=build_card_message(card, current_index + 1, len(filtered_cards)),
+        reply_markup=card_nav_keyboard(),
+    )
+
+
+async def handle_card_category(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    _, category = query.data.split("|", 1)
+
+    card_state = get_card_state(context)
+    reset_card_state(card_state)
+    card_state["category"] = category
+
+    await query.edit_message_text(
+        text="📚 Bir konu seç:",
+        reply_markup=card_topic_keyboard(category),
+    )
+
+
+async def handle_card_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    _, category, topic = query.data.split("|", 2)
+
+    filtered = [c for c in INFO_CARDS if c["category"] == category and c["topic"] == topic]
+
+    card_state = get_card_state(context)
+    reset_card_state(card_state)
+    card_state["category"] = category
+    card_state["topic"] = topic
+    card_state["filtered_cards"] = filtered
+    card_state["current_index"] = 0
+
+    await show_current_card(update, context)
+
+
+async def handle_card_nav(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    _, direction = query.data.split("|", 1)
+
+    card_state = get_card_state(context)
+    filtered_cards = card_state.get("filtered_cards", [])
+
+    if not filtered_cards:
+        await query.edit_message_text(
+            text="Aktif bilgi kartı listesi yok.",
+            reply_markup=card_category_keyboard(),
+        )
+        return
+
+    current_index = card_state.get("current_index", 0)
+
+    if direction == "next":
+        current_index = (current_index + 1) % len(filtered_cards)
+    elif direction == "prev":
+        current_index = (current_index - 1) % len(filtered_cards)
+
+    card_state["current_index"] = current_index
+    await show_current_card(update, context)
+
+
+async def handle_card_solve(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    card_state = get_card_state(context)
+    filtered_cards = card_state.get("filtered_cards", [])
+    current_index = card_state.get("current_index", 0)
+
+    if not filtered_cards:
+        await query.edit_message_text(
+            text="Aktif bilgi kartı yok.",
+            reply_markup=main_menu_keyboard(),
+        )
+        return
+
+    current_card = filtered_cards[current_index]
+    pool = filter_questions_by_card_topic(current_card["topic"])
+
+    if not pool:
+        await query.message.reply_text(
+            f"'{current_card['topic']}' konusu için eşleşen soru bulunamadı."
+        )
+        return
+
+    context.user_data["card_solve_pool"] = pool
+    context.user_data["card_solve_topic"] = current_card["topic"]
+
+    await query.message.reply_text(
+        f"📝 {current_card['topic']} konusundan kaç soru çözmek istiyorsun?",
+        reply_markup=solve_count_keyboard(),
+    )
+
+
+async def handle_card_solve_count(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    _, count_str = query.data.split("|", 1)
+    count = int(count_str)
+
+    pool = context.user_data.get("card_solve_pool", [])
+    topic = context.user_data.get("card_solve_topic", "Seçili konu")
+
+    if not pool:
+        await query.message.reply_text("Bu konu için hazır soru havuzu bulunamadı.")
+        return
+
+    quiz_state = get_user_state(context)
+    reset_quiz_state(quiz_state)
+    quiz_state["mode"] = "card_topic"
+    quiz_state["selected_topic"] = topic
+    quiz_state["question_count"] = count
+    quiz_state["queue"] = build_queue(pool, count)
+
+    await query.message.reply_text(
+        f"📚 {topic} konusundan {count} soruluk test başladı."
+    )
+    await send_next_question_message(query.message.chat_id, context)
+
+
+# =========================
 # MENU HANDLERS
 # =========================
 
@@ -755,6 +1060,18 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     _, action = query.data.split("|", 1)
 
+    if action == "home":
+        reset_quiz_state(state)
+        reset_card_state(get_card_state(context))
+        try:
+            await query.edit_message_text(
+                text="🏠 Ana Menü",
+                reply_markup=main_menu_keyboard(),
+            )
+        except Exception:
+            await query.message.reply_text("🏠 Ana Menü", reply_markup=main_menu_keyboard())
+        return
+
     if action == "random":
         reset_quiz_state(state)
         state["mode"] = "random"
@@ -767,13 +1084,23 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if action == "topic":
         rows = [[InlineKeyboardButton(f"📚 {topic}", callback_data=f"topic|{topic}")] for topic in unique_topics()]
         rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="topic|hepsi")])
+        rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
         await query.message.reply_text("🧩 Bir konu seç:", reply_markup=InlineKeyboardMarkup(rows))
         return
 
     if action == "difficulty":
         rows = [[InlineKeyboardButton(f"⚡ {diff.capitalize()}", callback_data=f"difficulty|{diff}")] for diff in unique_difficulties()]
         rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="difficulty|hepsi")])
+        rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
         await query.message.reply_text("⚡ Bir zorluk seç:", reply_markup=InlineKeyboardMarkup(rows))
+        return
+
+    if action == "info_cards":
+        reset_card_state(get_card_state(context))
+        await query.message.reply_text(
+            "📚 Bilgi kartı kategorisi seç:",
+            reply_markup=card_category_keyboard(),
+        )
         return
 
     if action == "wrong":
@@ -956,6 +1283,12 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_count_click, pattern=r"^count_"))
     application.add_handler(CallbackQueryHandler(handle_next, pattern=r"^next$"))
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
+
+    application.add_handler(CallbackQueryHandler(handle_card_category, pattern=r"^cardcat\|"))
+    application.add_handler(CallbackQueryHandler(handle_card_topic, pattern=r"^cardtopic\|"))
+    application.add_handler(CallbackQueryHandler(handle_card_nav, pattern=r"^cardnav\|"))
+    application.add_handler(CallbackQueryHandler(handle_card_solve, pattern=r"^cardsolve$"))
+    application.add_handler(CallbackQueryHandler(handle_card_solve_count, pattern=r"^cardsolvecount\|"))
 
     logger.warning("Bot webhook modunda başlatılıyor...")
 
