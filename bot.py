@@ -372,10 +372,6 @@ def unique_difficulties() -> List[str]:
     )
 
 
-def unique_card_categories() -> List[str]:
-    return sorted({c["category"] for c in INFO_CARDS})
-
-
 def unique_card_topics_by_category(category: str) -> List[str]:
     return sorted({c["topic"] for c in INFO_CARDS if c["category"] == category})
 
@@ -407,7 +403,6 @@ def filter_questions_by_card_topic(card_topic: str) -> List[Dict[str, Any]]:
     if matches:
         return matches
 
-    # ikinci deneme: soru metninde başlık aranır
     for q in QUESTIONS:
         q_text = normalize_text(q["question"])
         if target in q_text:
@@ -485,7 +480,7 @@ def build_card_message(card: Dict[str, Any], index: int, total: int) -> str:
         f"├ Kategori: {category_label}",
         f"└ Konu: {card['topic']}",
         "",
-        f"{card['title']}",
+        card["title"],
         "",
         card["content"],
     ]
@@ -570,7 +565,13 @@ def card_category_keyboard() -> InlineKeyboardMarkup:
 
 def card_topic_keyboard(category: str) -> InlineKeyboardMarkup:
     topics = unique_card_topics_by_category(category)
-    rows = [[InlineKeyboardButton(topic, callback_data=f"cardtopic|{category}|{topic}")] for topic in topics]
+    rows = []
+
+    rows.append([InlineKeyboardButton("📚 Hepsi", callback_data=f"cardtopicall|{category}")])
+
+    for idx, topic in enumerate(topics):
+        rows.append([InlineKeyboardButton(topic, callback_data=f"cardtopicidx|{category}|{idx}")])
+
     rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
     return InlineKeyboardMarkup(rows)
 
@@ -935,18 +936,46 @@ async def handle_card_category(update: Update, context: ContextTypes.DEFAULT_TYP
     )
 
 
-async def handle_card_topic(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def handle_card_topic_index(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
     await query.answer()
 
-    _, category, topic = query.data.split("|", 2)
+    _, category, idx_str = query.data.split("|", 2)
+    idx = int(idx_str)
 
+    topics = unique_card_topics_by_category(category)
+    if idx < 0 or idx >= len(topics):
+        await query.edit_message_text(
+            text="Konu bulunamadı.",
+            reply_markup=card_category_keyboard(),
+        )
+        return
+
+    topic = topics[idx]
     filtered = [c for c in INFO_CARDS if c["category"] == category and c["topic"] == topic]
 
     card_state = get_card_state(context)
     reset_card_state(card_state)
     card_state["category"] = category
     card_state["topic"] = topic
+    card_state["filtered_cards"] = filtered
+    card_state["current_index"] = 0
+
+    await show_current_card(update, context)
+
+
+async def handle_card_topic_all(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+
+    _, category = query.data.split("|", 1)
+
+    filtered = [c for c in INFO_CARDS if c["category"] == category]
+
+    card_state = get_card_state(context)
+    reset_card_state(card_state)
+    card_state["category"] = category
+    card_state["topic"] = "Hepsi"
     card_state["filtered_cards"] = filtered
     card_state["current_index"] = 0
 
@@ -999,16 +1028,18 @@ async def handle_card_solve(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     pool = filter_questions_by_card_topic(current_card["topic"])
 
     if not pool:
-        await query.message.reply_text(
-            f"'{current_card['topic']}' konusu için eşleşen soru bulunamadı."
+        await query.edit_message_text(
+            text=build_card_message(current_card, current_index + 1, len(filtered_cards)) +
+                 "\n\nBu kartın konusuyla eşleşen soru bulunamadı.",
+            reply_markup=card_nav_keyboard(),
         )
         return
 
     context.user_data["card_solve_pool"] = pool
     context.user_data["card_solve_topic"] = current_card["topic"]
 
-    await query.message.reply_text(
-        f"📝 {current_card['topic']} konusundan kaç soru çözmek istiyorsun?",
+    await query.edit_message_text(
+        text=f"📝 {current_card['topic']} konusundan kaç soru çözmek istiyorsun?",
         reply_markup=solve_count_keyboard(),
     )
 
@@ -1024,7 +1055,10 @@ async def handle_card_solve_count(update: Update, context: ContextTypes.DEFAULT_
     topic = context.user_data.get("card_solve_topic", "Seçili konu")
 
     if not pool:
-        await query.message.reply_text("Bu konu için hazır soru havuzu bulunamadı.")
+        await query.edit_message_text(
+            text="Bu konu için hazır soru havuzu bulunamadı.",
+            reply_markup=main_menu_keyboard(),
+        )
         return
 
     quiz_state = get_user_state(context)
@@ -1034,8 +1068,8 @@ async def handle_card_solve_count(update: Update, context: ContextTypes.DEFAULT_
     quiz_state["question_count"] = count
     quiz_state["queue"] = build_queue(pool, count)
 
-    await query.message.reply_text(
-        f"📚 {topic} konusundan {count} soruluk test başladı."
+    await query.edit_message_text(
+        text=f"📚 {topic} konusundan {count} soruluk test başladı."
     )
     await send_next_question_message(query.message.chat_id, context)
 
@@ -1075,8 +1109,8 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if action == "random":
         reset_quiz_state(state)
         state["mode"] = "random"
-        await query.message.reply_text(
-            "🎲 Kaç soru çözmek istiyorsun?",
+        await query.edit_message_text(
+            text="🎲 Kaç soru çözmek istiyorsun?",
             reply_markup=question_count_keyboard("count_random"),
         )
         return
@@ -1085,20 +1119,20 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         rows = [[InlineKeyboardButton(f"📚 {topic}", callback_data=f"topic|{topic}")] for topic in unique_topics()]
         rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="topic|hepsi")])
         rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
-        await query.message.reply_text("🧩 Bir konu seç:", reply_markup=InlineKeyboardMarkup(rows))
+        await query.edit_message_text("🧩 Bir konu seç:", reply_markup=InlineKeyboardMarkup(rows))
         return
 
     if action == "difficulty":
         rows = [[InlineKeyboardButton(f"⚡ {diff.capitalize()}", callback_data=f"difficulty|{diff}")] for diff in unique_difficulties()]
         rows.append([InlineKeyboardButton("📦 Hepsi", callback_data="difficulty|hepsi")])
         rows.append([InlineKeyboardButton("🏠 Ana Menü", callback_data="menu|home")])
-        await query.message.reply_text("⚡ Bir zorluk seç:", reply_markup=InlineKeyboardMarkup(rows))
+        await query.edit_message_text("⚡ Bir zorluk seç:", reply_markup=InlineKeyboardMarkup(rows))
         return
 
     if action == "info_cards":
         reset_card_state(get_card_state(context))
-        await query.message.reply_text(
-            "📚 Bilgi kartı kategorisi seç:",
+        await query.edit_message_text(
+            text="📚 Bilgi kartı kategorisi seç:",
             reply_markup=card_category_keyboard(),
         )
         return
@@ -1106,29 +1140,32 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     if action == "wrong":
         wrong_questions = get_wrong_questions_for_user(update.effective_user.id)
         if not wrong_questions:
-            await query.message.reply_text("Henüz biriken yanlış soru yok.")
+            await query.edit_message_text("Henüz biriken yanlış soru yok.", reply_markup=main_menu_keyboard())
             return
 
         reset_quiz_state(state)
         state["mode"] = "wrong"
-        await query.message.reply_text(
-            "🔁 Yanlışlarından kaç soru çözmek istiyorsun?",
+        await query.edit_message_text(
+            text="🔁 Yanlışlarından kaç soru çözmek istiyorsun?",
             reply_markup=question_count_keyboard("count_wrong")
         )
         return
 
     if action == "stats":
-        await query.message.reply_text(stats_text_for_user(update.effective_user.id))
+        await query.edit_message_text(
+            text=stats_text_for_user(update.effective_user.id),
+            reply_markup=main_menu_keyboard(),
+        )
         return
 
     if action == "daily_on":
         set_daily_quiz_enabled(update.effective_user.id, True)
-        await query.message.reply_text("🌞 Günlük deneme açıldı.")
+        await query.edit_message_text("🌞 Günlük deneme açıldı.", reply_markup=main_menu_keyboard())
         return
 
     if action == "daily_off":
         set_daily_quiz_enabled(update.effective_user.id, False)
-        await query.message.reply_text("🌙 Günlük deneme kapatıldı.")
+        await query.edit_message_text("🌙 Günlük deneme kapatıldı.", reply_markup=main_menu_keyboard())
         return
 
     if action == "daily_now":
@@ -1137,7 +1174,7 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         state["question_count"] = DAILY_QUIZ_COUNT
         state["queue"] = build_queue(QUESTIONS.copy(), DAILY_QUIZ_COUNT)
 
-        await query.message.reply_text(f"📝 Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
+        await query.edit_message_text(f"📝 Bugünün {DAILY_QUIZ_COUNT} soruluk denemesi başladı.")
         await send_next_question_message(query.message.chat_id, context)
         return
 
@@ -1149,10 +1186,7 @@ async def handle_menu_click(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             f"Yanlış: {state['asked'] - state['score']}"
         )
         reset_quiz_state(state)
-        try:
-            await query.edit_message_text(text=text, reply_markup=main_menu_keyboard())
-        except Exception:
-            await query.message.reply_text(text, reply_markup=main_menu_keyboard())
+        await query.edit_message_text(text=text, reply_markup=main_menu_keyboard())
         return
 
 
@@ -1167,8 +1201,8 @@ async def handle_topic_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
     state["mode"] = "topic"
     state["selected_topic"] = selected_topic
 
-    await query.message.reply_text(
-        f"📚 Konu seçildi: {selected_topic}\nKaç soru çözmek istiyorsun?",
+    await query.edit_message_text(
+        text=f"📚 Konu seçildi: {selected_topic}\nKaç soru çözmek istiyorsun?",
         reply_markup=question_count_keyboard("count_topic"),
     )
 
@@ -1184,8 +1218,8 @@ async def handle_difficulty_click(update: Update, context: ContextTypes.DEFAULT_
     state["mode"] = "difficulty"
     state["selected_difficulty"] = selected_difficulty
 
-    await query.message.reply_text(
-        f"⚡ Zorluk seçildi: {selected_difficulty.capitalize()}\nKaç soru çözmek istiyorsun?",
+    await query.edit_message_text(
+        text=f"⚡ Zorluk seçildi: {selected_difficulty.capitalize()}\nKaç soru çözmek istiyorsun?",
         reply_markup=question_count_keyboard("count_difficulty"),
     )
 
@@ -1204,7 +1238,7 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     if mode_key == "count_random":
         state["queue"] = build_queue(QUESTIONS.copy(), selected_count)
-        await query.message.reply_text(f"🎲 {selected_count} soruluk karma test başladı.")
+        await query.edit_message_text(f"🎲 {selected_count} soruluk karma test başladı.")
         await send_next_question_message(query.message.chat_id, context)
         return
 
@@ -1213,10 +1247,10 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
         state["queue"] = build_queue(pool, selected_count)
 
         if not state["queue"]:
-            await query.message.reply_text("Bu konu için soru bulunamadı.")
+            await query.edit_message_text("Bu konu için soru bulunamadı.", reply_markup=main_menu_keyboard())
             return
 
-        await query.message.reply_text(
+        await query.edit_message_text(
             f"📚 Konu modu başladı: {state.get('selected_topic')}\nSoru sayısı: {selected_count}"
         )
         await send_next_question_message(query.message.chat_id, context)
@@ -1227,10 +1261,10 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
         state["queue"] = build_queue(pool, selected_count)
 
         if not state["queue"]:
-            await query.message.reply_text("Bu zorluk için soru bulunamadı.")
+            await query.edit_message_text("Bu zorluk için soru bulunamadı.", reply_markup=main_menu_keyboard())
             return
 
-        await query.message.reply_text(
+        await query.edit_message_text(
             f"⚡ Zorluk modu başladı: {state.get('selected_difficulty').capitalize()}\nSoru sayısı: {selected_count}"
         )
         await send_next_question_message(query.message.chat_id, context)
@@ -1241,10 +1275,10 @@ async def handle_count_click(update: Update, context: ContextTypes.DEFAULT_TYPE)
         state["queue"] = build_queue(pool, selected_count)
 
         if not state["queue"]:
-            await query.message.reply_text("Yanlış soru bulunamadı.")
+            await query.edit_message_text("Yanlış soru bulunamadı.", reply_markup=main_menu_keyboard())
             return
 
-        await query.message.reply_text(
+        await query.edit_message_text(
             f"🔁 Yanlışlarım modu başladı.\nSoru sayısı: {selected_count}"
         )
         await send_next_question_message(query.message.chat_id, context)
@@ -1285,7 +1319,8 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(handle_answer, pattern=r"^(answer\||skip$)"))
 
     application.add_handler(CallbackQueryHandler(handle_card_category, pattern=r"^cardcat\|"))
-    application.add_handler(CallbackQueryHandler(handle_card_topic, pattern=r"^cardtopic\|"))
+    application.add_handler(CallbackQueryHandler(handle_card_topic_index, pattern=r"^cardtopicidx\|"))
+    application.add_handler(CallbackQueryHandler(handle_card_topic_all, pattern=r"^cardtopicall\|"))
     application.add_handler(CallbackQueryHandler(handle_card_nav, pattern=r"^cardnav\|"))
     application.add_handler(CallbackQueryHandler(handle_card_solve, pattern=r"^cardsolve$"))
     application.add_handler(CallbackQueryHandler(handle_card_solve_count, pattern=r"^cardsolvecount\|"))
